@@ -387,6 +387,40 @@ if (!isset($active_ward_id)) {
   </div>
 </div>
 
+<!-- 5. In-Page Pop-Up Modal: ElevenLabs Voice AI Assistant (Aanya) -->
+<div class="modal fade" id="elevenLabsVoiceModal" tabindex="-1" aria-labelledby="elevenLabsVoiceModalLabel" aria-hidden="true" style="backdrop-filter: blur(8px);">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
+      <div class="modal-header border-0 text-white py-3.5 px-4" style="background: linear-gradient(135deg, #059669 0%, #0d9488 50%, #0f172a 100%);">
+        <div class="d-flex align-items-center gap-2.5">
+          <div class="bg-white text-success rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;">
+            <i class="bi bi-mic-fill fs-5"></i>
+          </div>
+          <div>
+            <h5 class="modal-title fw-extrabold mb-0 text-white" id="elevenLabsVoiceModalLabel">Aanya — NMC Voice AI Assistant 🎙️</h5>
+            <span class="small opacity-90 font-monospace">OFFICIAL NAGPUR MAHANAGAR PALIKA CONVERSATIONAL AI</span>
+          </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-0 bg-dark position-relative" style="min-height: 520px;">
+        <!-- Embedded ElevenLabs Talk-To Agent Frame -->
+        <iframe src="https://elevenlabs.io/app/talk-to?agent_id=agent_9001m1gjrgkfemf9dw6xd5v350yv&branch_id=agtbrch_3101m1gjrhrceph9jvnda5npt5wv" allow="microphone; camera; autoplay" class="w-100 border-0" style="height: 540px; width: 100%; border: none;"></iframe>
+      </div>
+
+      <div class="modal-footer border-0 bg-light py-2.5 px-4 d-flex justify-content-between align-items-center">
+        <span class="small font-monospace text-muted"><i class="bi bi-shield-check text-success me-1"></i>Powered by ElevenLabs & NMC AI Engine</span>
+        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Close Assistant</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Official ElevenLabs Convai Custom Element Script Tag -->
+<elevenlabs-convai agent-id="agent_9001m1gjrgkfemf9dw6xd5v350yv"></elevenlabs-convai>
+<script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+
 <!-- App-Style Mobile Bottom Navigation Dock (Fixed Sticky on Mobile Viewports < 768px) -->
 <nav class="mobile-nav-dock">
   <a href="index.php" class="mobile-nav-item <?php echo (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'active' : ''; ?>">

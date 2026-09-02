@@ -483,6 +483,11 @@ $wards = $conn->query("SELECT * FROM wards ORDER BY name ASC")->fetchAll();
 
       <!-- Dynamic Ward Quick Status Pills (Always Visible High Contrast Pills) -->
       <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+        <button type="button" class="btn btn-sm btn-warning rounded-pill px-3.5 py-1 fs-7 d-flex align-items-center gap-1.5 shadow-lg font-monospace fw-extrabold text-dark" data-bs-toggle="modal" data-bs-target="#elevenLabsVoiceModal" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: none;">
+          <i class="bi bi-mic-fill text-danger fs-6"></i>
+          <span>Talk to Aanya Voice AI 🎙️</span>
+        </button>
+
         <button type="button" class="btn btn-sm btn-dark bg-opacity-40 text-white border border-white border-opacity-25 rounded-pill px-3 py-1 fs-7 d-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#wardSelectModal">
           <i class="bi bi-geo-alt-fill text-warning"></i>
           <span>Ward: <strong><?php echo $active_ward_name ? htmlspecialchars($active_ward_name) : 'Nagpur (Set Ward)'; ?></strong></span>

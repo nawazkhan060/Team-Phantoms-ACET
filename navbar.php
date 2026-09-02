@@ -45,6 +45,9 @@ $nav_active_ward_name = $active_ward_name ?? '';
         <a href="donation.php" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 font-monospace fw-bold small">
           <i class="bi bi-heart-fill me-1 text-danger"></i>Donate 💚
         </a>
+        <button type="button" class="btn btn-sm btn-warning rounded-pill px-3 py-1 font-monospace fw-bold small text-dark" data-bs-toggle="modal" data-bs-target="#elevenLabsVoiceModal" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: none;">
+          <i class="bi bi-mic-fill me-1 text-danger"></i>Voice AI 🎙️
+        </button>
         <a href="redeem.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 font-monospace fw-bold small">
           <i class="bi bi-gift-fill me-1"></i>Rewards 🎁
         </a>
