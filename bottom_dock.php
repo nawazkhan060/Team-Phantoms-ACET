@@ -266,9 +266,21 @@ if (!isset($active_ward_id)) {
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-4 text-center">
-        <p class="text-muted small mb-3">Scan product barcode or tap a quick test item to pop up instant carbon calculations:</p>
+        <p class="text-muted small mb-3">Scan product barcode using live camera or select test items for instant carbon footprint calculation:</p>
         
-        <div class="mb-4">
+        <!-- Scan Mode Pill Toggle -->
+        <div class="mb-3">
+          <div class="btn-group w-100 p-1 bg-light border rounded-pill shadow-inner" role="group">
+            <input type="radio" class="btn-check" name="co2_scan_source" id="modal-co2-src-upload" value="upload" checked>
+            <label class="btn btn-outline-success border-0 rounded-pill font-monospace fw-bold py-1.5 small" for="modal-co2-src-upload"><i class="bi bi-keyboard me-1"></i>Enter Barcode</label>
+
+            <input type="radio" class="btn-check" name="co2_scan_source" id="modal-co2-src-webcam" value="webcam">
+            <label class="btn btn-outline-success border-0 rounded-pill font-monospace fw-bold py-1.5 small" for="modal-co2-src-webcam"><i class="bi bi-camera-video-fill me-1"></i>Live Camera Reader</label>
+          </div>
+        </div>
+
+        <!-- Mode 1: Enter Barcode / Manual Input -->
+        <div id="modal-co2-upload-box" class="mb-4">
           <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden border">
             <span class="input-group-text bg-white border-0 ps-3"><i class="bi bi-upc-scan text-success fs-4"></i></span>
             <input type="text" id="quick-barcode-input" class="form-control border-0 font-monospace fw-bold text-dark px-2" placeholder="Enter barcode (e.g. 8901152010118)...">
@@ -278,8 +290,28 @@ if (!isset($active_ward_id)) {
           </div>
         </div>
 
+        <!-- Mode 2: Live Camera Reader Feed -->
+        <div id="modal-co2-webcam-box" class="mb-4 d-none">
+          <div class="position-relative bg-dark rounded-4 overflow-hidden border text-center mb-2 shadow-sm" style="height: 220px; display: flex; align-items: center; justify-content: center;">
+            <video id="modal-co2-video" autoplay playsinline class="position-absolute top-0 start-0 w-100 h-100 d-none" style="object-fit: cover;"></video>
+            <canvas id="modal-co2-canvas" class="d-none" width="640" height="480"></canvas>
+            <img id="modal-co2-preview" class="position-absolute top-0 start-0 w-100 h-100 d-none" style="object-fit: cover;">
+            <div id="modal-co2-placeholder" class="text-center p-3 text-white">
+              <i class="bi bi-camera fs-1 text-success d-block mb-1"></i>
+              <span class="small">Click "Start Camera" to scan product barcode</span>
+            </div>
+          </div>
+          <div class="text-center d-flex justify-content-center gap-2">
+            <button type="button" id="btn-modal-co2-start" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1.5 fw-bold"><i class="bi bi-power me-1"></i>Start Camera</button>
+            <button type="button" id="btn-modal-co2-capture" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold d-none"><i class="bi bi-camera-fill me-1"></i>Scan Product Barcode</button>
+          </div>
+        </div>
+
         <div class="border-top pt-3 text-start">
-          <span class="small text-muted fw-bold d-block mb-2"><i class="bi bi-lightning-charge-fill text-warning me-1"></i>1-Click Test Products:</span>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="small text-muted fw-bold"><i class="bi bi-lightning-charge-fill text-warning me-1"></i>1-Click Test Products:</span>
+            <a href="barcode.php" class="small font-monospace fw-bold text-success text-decoration-none">Full Scanner Page →</a>
+          </div>
           <div class="d-flex flex-wrap gap-2">
             <button type="button" class="btn btn-sm btn-outline-success rounded-pill font-monospace fw-bold quick-scan-pill" data-barcode="8901152010118">
               🥤 Bisleri Water 100ml
@@ -617,6 +649,17 @@ if (!isset($active_ward_id)) {
 
     setupModalCamera('pothole');
     setupModalCamera('traffic');
+    setupModalCamera('co2');
+
+    // CO2 Camera Capture Trigger -> Product Modal
+    const btnCo2Cap = document.getElementById('btn-modal-co2-capture');
+    if (btnCo2Cap) {
+      btnCo2Cap.addEventListener('click', function() {
+        setTimeout(() => {
+          triggerProductModal('8901152010118');
+        }, 300);
+      });
+    }
   });
 </script>
 
