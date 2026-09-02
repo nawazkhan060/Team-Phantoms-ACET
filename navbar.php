@@ -39,6 +39,9 @@ $nav_active_ward_name = $active_ward_name ?? '';
         <a href="potholes.php" class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 font-monospace fw-bold small">
           <i class="bi bi-tools me-1"></i>Potholes 🛠️
         </a>
+        <a href="transit.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 font-monospace fw-bold small">
+          <i class="bi bi-bus-front-fill me-1"></i>Transit 🚌
+        </a>
         <a href="donation.php" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 font-monospace fw-bold small">
           <i class="bi bi-heart-fill me-1 text-danger"></i>Donate 💚
         </a>

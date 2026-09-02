@@ -1688,50 +1688,63 @@ $news_posts = $news_stmt->fetchAll();
             </div>
           <?php endif; ?>
         
-        <!-- Tab: Public Transport (NMC Aapli Bus) -->
+        <!-- Tab: Public Transport (NMC Aapli Bus & Maha Metro Real-Time Tracker) -->
         <?php elseif ($active_tab === 'transport'): ?>
-          <div class="card">
-            <div class="card-header"><i class="bi bi-bus-front text-success me-2"></i>NMC Aapli Bus - Real-Time Arrivals</div>
-            <div class="card-body">
-              <p class="text-muted">Live arrival countdowns for Nagpur Municipal Corporation public transit bus lines and Metro routes.</p>
-              
-              <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                  <thead>
-                    <tr>
-                      <th>Bus Line / Route</th>
-                      <th>Destination</th>
-                      <th>Status</th>
-                      <th>Arriving In</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><strong>Route 1A (Aapli Bus)</strong></td>
-                      <td>Sitabuldi &harr; Hingna Depot</td>
-                      <td><span class="badge bg-success text-white">On Time</span></td>
-                      <td><span class="badge bg-light text-dark border font-monospace fs-6 px-3 py-1"><i class="bi bi-clock me-1 text-success"></i>3 mins</span></td>
-                    </tr>
-                    <tr>
-                      <td><strong>Route 5 (Aapli Bus)</strong></td>
-                      <td>Dharampeth &harr; Kamptee</td>
-                      <td><span class="badge bg-warning text-dark">Delayed (5m)</span></td>
-                      <td><span class="badge bg-light text-dark border font-monospace fs-6 px-3 py-1"><i class="bi bi-clock me-1 text-warning"></i>12 mins</span></td>
-                    </tr>
-                    <tr>
-                      <td><strong>Route 10 (Aapli Bus)</strong></td>
-                      <td>Laxmi Nagar &harr; Pardi</td>
-                      <td><span class="badge bg-success text-white">On Time</span></td>
-                      <td><span class="badge bg-light text-dark border font-monospace fs-6 px-3 py-1"><i class="bi bi-clock me-1 text-success"></i>7 mins</span></td>
-                    </tr>
-                    <tr>
-                      <td><strong>Metro Aqua Line</strong></td>
-                      <td>Lokmanya Nagar &harr; Sitabuldi</td>
-                      <td><span class="badge bg-success text-white">Frequent</span></td>
-                      <td><span class="badge bg-light text-dark border font-monospace fs-6 px-3 py-1"><i class="bi bi-clock me-1 text-primary"></i>Every 6 mins</span></td>
-                    </tr>
-                  </tbody>
-                </table>
+          <div class="p-4 rounded-4 text-white mb-4 shadow-sm" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0f172a 100%);">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+              <div>
+                <span class="badge bg-white bg-opacity-20 text-white font-monospace mb-2 px-3 py-1"><i class="bi bi-bus-front-fill me-1 text-warning"></i>LIVE TELEMATICS FLEET GRID</span>
+                <h3 class="fw-extrabold text-white mb-1">NMC Aapli Bus & Maha Metro Real-Time Grid 🚌🚇</h3>
+                <p class="text-white opacity-90 mb-0 small">Live GPS tracking for 180+ city buses, EV shuttles & metro lines.</p>
+              </div>
+              <a href="transit.php" class="btn btn-warning font-monospace fw-bold px-4 py-2.5 rounded-pill shadow-sm text-dark text-nowrap">
+                <i class="bi bi-geo-alt-fill me-1"></i>Open Full GPS Map & Booking 🚀
+              </a>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <div class="border rounded-4 p-3.5 bg-white shadow-sm h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge bg-success-subtle text-success font-monospace px-2.5 py-1 rounded-pill fw-bold">⚡ 100% Electric EV</span>
+                  <span class="badge bg-light text-primary border font-monospace fs-6 px-3 py-1"><i class="bi bi-clock-fill text-primary me-1"></i>2 mins</span>
+                </div>
+                <h6 class="fw-bold text-dark mb-1">Route 1A • Sitabuldi ↔ Hingna Depot</h6>
+                <span class="small text-muted d-block"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Next Stop: <strong>Dhantoli Zone 4 Stop</strong></span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="border rounded-4 p-3.5 bg-white shadow-sm h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge bg-info-subtle text-info font-monospace px-2.5 py-1 rounded-pill fw-bold">🚇 Metro Orange Line</span>
+                  <span class="badge bg-light text-primary border font-monospace fs-6 px-3 py-1"><i class="bi bi-clock-fill text-primary me-1"></i>4 mins</span>
+                </div>
+                <h6 class="fw-bold text-dark mb-1">Orange Line • Automotive Square ↔ Khapri</h6>
+                <span class="small text-muted d-block"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Next Stop: <strong>Sitabuldi Interchange Station</strong></span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="border rounded-4 p-3.5 bg-white shadow-sm h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge bg-warning-subtle text-warning font-monospace px-2.5 py-1 rounded-pill fw-bold">🚌 CNG Green Fleet</span>
+                  <span class="badge bg-light text-warning border font-monospace fs-6 px-3 py-1"><i class="bi bi-clock-fill text-warning me-1"></i>7 mins</span>
+                </div>
+                <h6 class="fw-bold text-dark mb-1">Route 5 • Dharampeth ↔ Kamptee Road</h6>
+                <span class="small text-muted d-block"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Next Stop: <strong>Variety Square</strong></span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="border rounded-4 p-3.5 bg-white shadow-sm h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge bg-success-subtle text-success font-monospace px-2.5 py-1 rounded-pill fw-bold">✈️ Airport Express</span>
+                  <span class="badge bg-light text-primary border font-monospace fs-6 px-3 py-1"><i class="bi bi-clock-fill text-primary me-1"></i>11 mins</span>
+                </div>
+                <h6 class="fw-bold text-dark mb-1">Route 12 • Airport Express ↔ Mihan IT Park</h6>
+                <span class="small text-muted d-block"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Next Stop: <strong>Airport Terminal 1</strong></span>
               </div>
             </div>
           </div>
