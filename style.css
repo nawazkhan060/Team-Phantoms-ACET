@@ -1242,7 +1242,7 @@ elevenlabs-convai {
     position: relative !important;
     padding-top: 6px !important;
     padding-bottom: 6px !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     width: 100% !important;
     z-index: 1030 !important;
   }
@@ -1251,6 +1251,11 @@ elevenlabs-convai {
     padding-left: 8px !important;
     padding-right: 8px !important;
     flex-wrap: nowrap !important;
+    overflow: visible !important;
+  }
+
+  .dropdown-menu {
+    z-index: 1060 !important;
   }
 
   .navbar-brand {

@@ -58,7 +58,7 @@ $nav_active_ward_name = $active_ward_name ?? '';
         <button class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-1 font-monospace dropdown-toggle d-flex align-items-center gap-1" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.78rem;">
           <i class="bi bi-translate"></i> <span id="current-lang-label">EN</span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4" aria-labelledby="langDropdown">
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4" aria-labelledby="langDropdown" style="z-index: 1060 !important;">
           <li><a class="dropdown-item lang-select-btn fw-semibold text-primary small py-1.5" href="#" data-lang="en">English (EN)</a></li>
           <li><a class="dropdown-item lang-select-btn small py-1.5" href="#" data-lang="hi">हिंदी (HI)</a></li>
           <li><a class="dropdown-item lang-select-btn small py-1.5" href="#" data-lang="mr">मराठी (MR)</a></li>
@@ -82,7 +82,7 @@ $nav_active_ward_name = $active_ward_name ?? '';
             <?php endif; ?>
             <span class="d-none d-md-inline text-truncate" style="max-width: 100px; font-size: 0.82rem;"><?php echo htmlspecialchars($nav_user_name); ?></span>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-2 mt-2" aria-labelledby="profileDropdown" style="min-width: 210px;">
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-2 mt-2" aria-labelledby="profileDropdown" style="min-width: 210px; z-index: 1060 !important;">
             <li class="px-3 py-2 border-bottom mb-1">
               <div class="fw-bold text-dark text-truncate small"><i class="bi bi-person-fill text-success me-1.5"></i><?php echo htmlspecialchars($nav_user_name); ?></div>
             </li>
