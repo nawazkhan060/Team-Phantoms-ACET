@@ -18,14 +18,6 @@ $nav_active_ward_name = $active_ward_name ?? '';
 <!-- Top Navigation Bar (Shorter & 100% Mobile Responsive) -->
 <nav class="navbar navbar-expand-lg sticky-top bg-white border-bottom shadow-sm py-1.5" style="min-height: 56px;">
   <div class="container-fluid px-2 px-md-4 d-flex align-items-center justify-content-between flex-nowrap">
-    
-    <!-- Left: Brand Logo Icon -->
-    <a class="navbar-brand d-flex align-items-center me-1 py-0" href="index.php" style="flex-shrink: 0;" title="NMC Smart Portal Home">
-      <div class="bg-success text-white rounded-3 p-1 d-flex align-items-center justify-content-center shadow-sm" style="width: 34px; height: 34px;">
-        <i class="bi bi-building-fill-gear fs-6"></i>
-      </div>
-    </a>
-
     <!-- Ward Switcher Badge (Compact, Truncated on Mobile) -->
     <button type="button" class="btn btn-light btn-sm rounded-pill border shadow-sm d-inline-flex align-items-center gap-1 px-2.5 py-1 font-monospace text-dark mx-1" data-bs-toggle="modal" data-bs-target="#wardSelectModal" title="Change Ward Zone" style="flex-shrink: 1; min-width: 0;">
       <i class="bi bi-geo-alt-fill text-danger small"></i>
