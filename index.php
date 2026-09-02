@@ -529,26 +529,27 @@ $wards = $conn->query("SELECT * FROM wards ORDER BY name ASC")->fetchAll();
       </div>
     </div>
 
-    <!-- Category Filter Chips (Horizontal Scrollable on Mobile) -->
-      <button class="filter-chip active" data-category="all">
+    <!-- Category Filter Chips (Horizontal Scrollable on Mobile - Strict 1 Line) -->
+    <div class="filter-chips-container mb-3 mb-md-4" id="category-chips" style="display: flex !important; flex-wrap: nowrap !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; gap: 8px !important; width: 100% !important; padding-bottom: 8px !important; scrollbar-width: none !important;">
+      <button class="filter-chip active" data-category="all" style="flex: 0 0 auto !important; white-space: nowrap !important;">
         <i class="bi bi-grid-fill text-success"></i> All Services
       </button>
-      <a href="polls.php" class="filter-chip text-decoration-none bg-success bg-opacity-10 border-success text-success fw-bold">
+      <a href="polls.php" class="filter-chip text-decoration-none bg-success bg-opacity-10 border-success text-success fw-bold" style="flex: 0 0 auto !important; white-space: nowrap !important;">
         <i class="bi bi-check2-square text-success"></i> Verification Polls 🗳️
       </a>
-      <a href="redeem.php" class="filter-chip text-decoration-none bg-primary bg-opacity-10 border-primary text-primary fw-bold">
+      <a href="redeem.php" class="filter-chip text-decoration-none bg-primary bg-opacity-10 border-primary text-primary fw-bold" style="flex: 0 0 auto !important; white-space: nowrap !important;">
         <i class="bi bi-gift-fill text-primary"></i> Redeem Points 🎁
       </a>
-      <button class="filter-chip" data-category="utilities">
+      <button class="filter-chip" data-category="utilities" style="flex: 0 0 auto !important; white-space: nowrap !important;">
         <i class="bi bi-lightning-charge-fill text-warning"></i> Utilities
       </button>
-      <button class="filter-chip" data-category="civic">
+      <button class="filter-chip" data-category="civic" style="flex: 0 0 auto !important; white-space: nowrap !important;">
         <i class="bi bi-tools text-purple" style="color: #9333ea;"></i> Civic & Roads
       </button>
-      <button class="filter-chip" data-category="eco">
+      <button class="filter-chip" data-category="eco" style="flex: 0 0 auto !important; white-space: nowrap !important;">
         <i class="bi bi-tree-fill text-success"></i> Eco Rewards
       </button>
-      <button class="filter-chip" data-category="transit">
+      <button class="filter-chip" data-category="transit" style="flex: 0 0 auto !important; white-space: nowrap !important;">
         <i class="bi bi-bus-front-fill text-info"></i> Transit & Tax
       </button>
     </div>
