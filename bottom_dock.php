@@ -663,8 +663,8 @@ if (!isset($active_ward_id)) {
   });
 </script>
 
-<!-- Google Translate Wrapper -->
-<div id="google_translate_element" style="display:none;"></div>
+<!-- Google Translate Wrapper (Offscreen rendering for active iframe execution) -->
+<div id="google_translate_element" style="position: absolute; opacity: 0; pointer-events: none; top: -9999px; left: -9999px; width: 1px; height: 1px;"></div>
 
 <!-- Bootstrap 5 JS Bundle Guard -->
 <script type="text/javascript">
@@ -706,9 +706,6 @@ if (!isset($active_ward_id)) {
 
     // 2. Language Switcher (EN / HI / MR)
     const savedLang = localStorage.getItem("app_lang") || "en";
-    const labels = { en: "EN", hi: "HI", mr: "MR" };
-    const labelEl = document.getElementById("current-lang-label");
-    if (labelEl) labelEl.textContent = labels[savedLang] || "EN";
 
     // Highlight Active Profile Language Button
     document.querySelectorAll(".lang-select-btn").forEach(btn => {
@@ -718,10 +715,12 @@ if (!isset($active_ward_id)) {
         if (bLang === "en") btn.classList.replace("btn-outline-primary", "btn-primary");
         if (bLang === "hi") btn.classList.replace("btn-outline-success", "btn-success");
         if (bLang === "mr") btn.classList.replace("btn-outline-warning", "btn-warning");
+      } else {
+        btn.classList.remove("active", "shadow-sm");
       }
     });
 
-    document.querySelectorAll(".lang-select-btn").forEach(btn => {
+    function setTransCookies(lang) {
       const isHttps = window.location.protocol === 'https:';
       const secureFlag = isHttps ? '; Secure' : '';
       const host = window.location.hostname;
@@ -736,10 +735,12 @@ if (!isset($active_ward_id)) {
         document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=; domain=" + d;
       });
 
-      domains.forEach(d => {
-        const domStr = d ? '; domain=' + d : '';
-        document.cookie = "googtrans=/en/" + lang + "; path=/; SameSite=Lax" + secureFlag + domStr;
-      });
+      if (lang && lang !== 'en') {
+        domains.forEach(d => {
+          const domStr = d ? '; domain=' + d : '';
+          document.cookie = "googtrans=/en/" + lang + "; path=/; SameSite=Lax" + secureFlag + domStr;
+        });
+      }
     }
 
     document.querySelectorAll(".lang-select-btn").forEach(btn => {
@@ -748,7 +749,6 @@ if (!isset($active_ward_id)) {
         const lang = this.getAttribute("data-lang");
         localStorage.setItem("app_lang", lang);
         
-        if (labelEl) labelEl.textContent = labels[lang] || "EN";
         setTransCookies(lang);
         
         const selectElement = document.querySelector('.goog-te-combo');
