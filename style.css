@@ -1226,10 +1226,12 @@ body {
 /* --- Full-Width Mobile Page Covering & Padding Optimization --- */
 @media (max-width: 768px) {
   .navbar {
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
+    position: relative !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
     overflow: hidden !important;
     width: 100% !important;
+    z-index: 1030 !important;
   }
 
   .navbar > .container-fluid {
@@ -1242,7 +1244,7 @@ body {
     font-size: 0.95rem !important;
     white-space: nowrap !important;
     overflow: hidden !important;
-    text-overflow: ellipsis !alignment;
+    text-overflow: ellipsis;
   }
 
   .dashboard-container {
@@ -1258,6 +1260,7 @@ body {
   .container, .container-fluid {
     padding-left: 8px !important;
     padding-right: 8px !important;
+    width: 100% !important;
   }
 
   .card-body {

@@ -939,8 +939,8 @@ $wards = $conn->query("SELECT * FROM wards ORDER BY name ASC")->fetchAll();
           </div>
 
           <form action="index.php#challan-section" method="POST" class="mt-1">
-            <div class="p-1 rounded-pill border d-flex align-items-center bg-light shadow-inner mb-3" style="border-color: #fda4af !important; background-color: #fff1f2 !important;">
-              <input type="text" name="vehicle_number" class="form-control border-0 bg-transparent font-monospace text-uppercase fw-bold px-3 py-2 text-dark" placeholder="e.g. MH39BA3148" value="<?php echo htmlspecialchars($_POST['vehicle_number'] ?? ''); ?>" required style="box-shadow: none !important; font-size: 0.98rem; letter-spacing: 1px;">
+            <div class="d-flex flex-column flex-sm-row gap-2 mb-3">
+              <input type="text" name="vehicle_number" class="form-control rounded-pill font-monospace text-uppercase fw-bold px-3 py-2.5 text-dark border" placeholder="e.g. MH39BA3148" value="<?php echo htmlspecialchars($_POST['vehicle_number'] ?? ''); ?>" required style="border-color: #fda4af !important; background-color: #fff1f2 !important; font-size: 0.95rem; letter-spacing: 1px;">
               <button type="submit" name="check_vehicle_challan" class="btn btn-danger font-monospace fw-bold px-4 py-2.5 text-nowrap shadow-sm" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); border: none; border-radius: 50px !important;">
                 <i class="bi bi-search me-1.5"></i>Check Challan
               </button>
