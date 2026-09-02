@@ -1249,22 +1249,22 @@ $wards = $conn->query("SELECT * FROM wards ORDER BY name ASC")->fetchAll();
   </script>
 
   <!-- Vehicle Traffic Challan Pop-up Details Modal -->
-  <div class="modal fade" id="vehicleChallanModal" tabindex="-1" aria-labelledby="vehicleChallanModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg overflow-hidden" style="border-radius: 30px !important; box-shadow: 0 25px 60px rgba(190, 18, 60, 0.3) !important;">
+  <div class="modal fade" id="vehicleChallanModal" tabindex="-1" aria-labelledby="vehicleChallanModalLabel" aria-hidden="true" style="backdrop-filter: blur(6px);">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+      <div class="modal-content border-0 shadow-lg overflow-hidden" style="border-radius: 28px !important; box-shadow: 0 25px 60px rgba(190, 18, 60, 0.35) !important;">
         <?php if ($searched_challan): ?>
-          <div class="modal-header text-white border-0 p-4 position-relative" style="background: linear-gradient(135deg, #be123c 0%, #9f1239 50%, #881337 100%) !important;">
-            <div class="w-100 pe-4">
-              <div class="d-inline-flex align-items-center gap-2 bg-black bg-opacity-30 border border-white border-opacity-20 px-3.5 py-1.5 rounded-pill mb-2 small fw-bold text-warning font-monospace">
+          <div class="modal-header text-white border-0 p-3.5 p-md-4 position-relative" style="background: linear-gradient(135deg, #be123c 0%, #9f1239 50%, #881337 100%) !important;">
+            <div class="pe-4">
+              <div class="d-inline-flex align-items-center gap-2 bg-black bg-opacity-40 border border-white border-opacity-20 px-3 py-1 rounded-pill mb-2 small fw-bold text-warning font-monospace">
                 <i class="bi bi-car-front-fill text-warning fs-6"></i>
                 <span>VEHICLE: <?php echo htmlspecialchars($searched_challan['vehicle_number']); ?></span>
               </div>
-              <h4 class="fw-extrabold mb-0 text-white" id="vehicleChallanModalLabel" style="letter-spacing: -0.5px;">Traffic Violation Challan Details</h4>
+              <h4 class="fw-extrabold mb-0 text-white" id="vehicleChallanModalLabel" style="font-size: 1.25rem; letter-spacing: -0.5px;">Traffic Violation Challan Details</h4>
             </div>
-            <button type="button" class="btn-close btn-close-white rounded-circle p-2 bg-black bg-opacity-30 position-absolute top-0 end-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white rounded-circle p-2 bg-black bg-opacity-40 ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
-          <div class="modal-body p-4" style="background-color: #fafafa;">
+          <div class="modal-body p-3.5 p-md-4" style="background-color: #fafafa;">
             <?php if ($challan_paid_success): ?>
               <div class="alert alert-success rounded-4 border-0 p-3.5 mb-3 shadow-sm" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); color: #065f46;">
                 <i class="bi bi-check-circle-fill fs-4 me-2 align-middle text-success"></i>
@@ -1273,61 +1273,66 @@ $wards = $conn->query("SELECT * FROM wards ORDER BY name ASC")->fetchAll();
             <?php endif; ?>
 
             <!-- Traffic Authority Badge Banner -->
-            <div class="d-flex align-items-center gap-2 bg-rose bg-opacity-10 border border-rose-subtle p-2.5 rounded-3 mb-3 text-danger small font-monospace fw-semibold" style="background-color: #fff1f2; border-color: #fecdd3 !important; color: #be123c;">
-              <i class="bi bi-shield-check fs-5"></i>
-              <span>Official Traffic Violation Record &bull; Nagpur Traffic Police City Division</span>
+            <div class="d-flex align-items-center gap-2.5 bg-rose bg-opacity-10 border border-rose-subtle p-3 rounded-4 mb-3 text-danger small font-monospace fw-semibold" style="background-color: #fff1f2; border-color: #fecdd3 !important; color: #be123c;">
+              <i class="bi bi-shield-check fs-4 flex-shrink-0"></i>
+              <span style="font-size: 0.78rem; line-height: 1.35;">Official Traffic Violation Record &bull; Nagpur Traffic Police City Division</span>
             </div>
 
-            <!-- Info Card Grid -->
-            <div class="p-3.5 rounded-4 border mb-4 shadow-sm" style="background-color: #ffffff; border-color: #f1f5f9 !important;">
-              <div class="d-flex justify-content-between align-items-center p-2.5 rounded-3 mb-2" style="background-color: #f8fafc;">
+            <!-- Info Card Grid (100% Mobile Responsive Stack) -->
+            <div class="p-3 rounded-4 border mb-3 shadow-sm bg-white" style="border-color: #f1f5f9 !important;">
+              <!-- Owner Name -->
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-1.5 p-2.5 rounded-3 mb-2" style="background-color: #f8fafc;">
                 <span class="text-muted small fw-semibold"><i class="bi bi-person-fill text-secondary me-1.5"></i>Registered Owner:</span>
-                <strong class="text-dark fs-6 font-monospace"><?php echo htmlspecialchars($searched_challan['owner_name']); ?></strong>
+                <strong class="text-dark fs-6 font-monospace text-sm-end"><?php echo htmlspecialchars($searched_challan['owner_name']); ?></strong>
               </div>
 
-              <div class="d-flex justify-content-between align-items-center p-2.5 rounded-3 mb-2" style="background-color: #fff1f2;">
+              <!-- Violation Type -->
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-1.5 p-2.5 rounded-3 mb-2" style="background-color: #fff1f2;">
                 <span class="text-muted small fw-semibold"><i class="bi bi-exclamation-triangle-fill text-danger me-1.5"></i>Violation Offense:</span>
-                <span class="badge rounded-pill text-white text-wrap text-end px-3 py-2 fw-bold" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); max-width: 220px; font-size: 0.82rem; line-height: 1.3;">
+                <span class="badge rounded-pill text-white px-3 py-2 fw-bold text-wrap text-start text-sm-end" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); font-size: 0.82rem; line-height: 1.35;">
                   <?php echo htmlspecialchars($searched_challan['violation_type']); ?>
                 </span>
               </div>
 
-              <div class="d-flex justify-content-between align-items-center p-2.5 rounded-3 mb-2" style="background-color: #f8fafc;">
+              <!-- Location -->
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-1.5 p-2.5 rounded-3 mb-2" style="background-color: #f8fafc;">
                 <span class="text-muted small fw-semibold"><i class="bi bi-geo-alt-fill text-danger me-1.5"></i>Offense Location:</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($searched_challan['location']); ?>" target="_blank" class="fw-semibold text-danger text-decoration-none small">
+                <a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($searched_challan['location']); ?>" target="_blank" class="fw-bold text-danger text-decoration-none small text-sm-end">
                   <?php echo htmlspecialchars($searched_challan['location']); ?> ↗
                 </a>
               </div>
 
-              <div class="d-flex justify-content-between align-items-center p-2.5 rounded-3 mb-2" style="background-color: #f8fafc;">
+              <!-- Timestamp -->
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-1.5 p-2.5 rounded-3 mb-2" style="background-color: #f8fafc;">
                 <span class="text-muted small fw-semibold"><i class="bi bi-clock-history text-secondary me-1.5"></i>Issued Timestamp:</span>
-                <span class="small font-monospace text-muted"><?php echo date('d M Y, h:i A', strtotime($searched_challan['issued_at'])); ?></span>
+                <span class="small font-monospace text-muted text-sm-end"><?php echo date('d M Y, h:i A', strtotime($searched_challan['issued_at'])); ?></span>
               </div>
 
-              <div class="d-flex justify-content-between align-items-center p-2.5 rounded-3" style="background-color: #f8fafc;">
+              <!-- Status -->
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-1.5 p-2.5 rounded-3" style="background-color: #f8fafc;">
                 <span class="text-muted small fw-semibold"><i class="bi bi-patch-exclamation-fill text-warning me-1.5"></i>Challan Status:</span>
                 <?php if ($searched_challan['status'] === 'Paid'): ?>
-                  <span class="badge bg-success text-white font-monospace px-3.5 py-2 rounded-pill shadow-sm"><i class="bi bi-check-circle-fill me-1"></i>Paid & Cleared</span>
+                  <span class="badge bg-success text-white font-monospace px-3.5 py-1.5 rounded-pill shadow-sm align-self-start align-self-sm-center"><i class="bi bi-check-circle-fill me-1"></i>Paid & Cleared</span>
                 <?php else: ?>
-                  <span class="badge text-white font-monospace px-3.5 py-2 rounded-pill shadow-sm" style="background: linear-gradient(135deg, #e11d48, #9f1239);"><i class="bi bi-exclamation-triangle-fill me-1"></i>Unpaid Pending</span>
+                  <span class="badge text-white font-monospace px-3.5 py-1.5 rounded-pill shadow-sm align-self-start align-self-sm-center" style="background: linear-gradient(135deg, #e11d48, #9f1239);"><i class="bi bi-exclamation-triangle-fill me-1"></i>Unpaid Pending</span>
                 <?php endif; ?>
               </div>
             </div>
 
             <!-- Fine Amount Box & Glowing Ultra-Curvy Payment Button -->
-            <div class="p-4 rounded-4 border text-center shadow-sm" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border: 2px dashed #fda4af !important;">
+            <div class="p-3.5 p-md-4 rounded-4 border text-center shadow-sm" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border: 2px dashed #fda4af !important;">
               <span class="text-muted small font-monospace fw-bold text-uppercase d-block mb-1" style="letter-spacing: 0.5px;">Total Outstanding Fine Amount:</span>
-              <h1 class="fw-extrabold text-danger font-monospace mb-3 display-5" style="letter-spacing: -1px; color: #be123c !important;">₹<?php echo number_format($searched_challan['challan_amount'], 2); ?></h1>
+              <h1 class="fw-extrabold text-danger font-monospace mb-3 display-6" style="letter-spacing: -1px; color: #be123c !important;">₹<?php echo number_format($searched_challan['challan_amount'], 2); ?></h1>
 
               <?php if ($searched_challan['status'] !== 'Paid'): ?>
                 <form action="index.php" method="POST">
                   <input type="hidden" name="challan_id" value="<?php echo $searched_challan['id']; ?>">
-                  <button type="submit" name="pay_vehicle_challan" class="btn btn-danger btn-lg w-100 font-monospace fw-extrabold py-3.5 shadow-lg" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 50%, #881337 100%); border: none; border-radius: 50px !important; box-shadow: 0 12px 30px rgba(190, 18, 60, 0.45) !important; font-size: 1.15rem; letter-spacing: 0.5px;">
+                  <button type="submit" name="pay_vehicle_challan" class="btn btn-danger btn-lg w-100 font-monospace fw-extrabold py-3 shadow-lg" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 50%, #881337 100%); border: none; border-radius: 50px !important; box-shadow: 0 12px 30px rgba(190, 18, 60, 0.45) !important; font-size: 1.05rem; letter-spacing: 0.5px;">
                     <i class="bi bi-credit-card-fill me-2"></i>Pay ₹<?php echo number_format($searched_challan['challan_amount'], 0); ?> Challan Now
                   </button>
                 </form>
               <?php else: ?>
-                <div class="alert alert-success mb-0 py-3 rounded-pill small fw-bold shadow-sm" style="background: #10b981; color: white;">
+                <div class="alert alert-success mb-0 py-2.5 rounded-pill small fw-bold shadow-sm" style="background: #10b981; color: white;">
                   <i class="bi bi-check-circle-fill me-1.5 fs-5 align-middle"></i>This traffic challan has been paid in full!
                 </div>
               <?php endif; ?>
