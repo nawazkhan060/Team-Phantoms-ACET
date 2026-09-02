@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green Industry Case Study Mode</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #f9fdf9;   /* very light white-green */
+      --bg-secondary: #e6f7ec; /* soft green tint */
+      --text-dark: #2c3e50;
+      --card-bg: #ffffff;
+      --navbar-bg: #121829;
+      --btn-primary: #27ae60;
+      --shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #1a2e1a;
+      --bg-secondary: #0d1b0d;
+      --card-bg: #1e3b23;
+      --text-dark: #ecf0f1;
+      --btn-primary: #2ecc71;
+      --shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+      color: var(--text-dark);
+      transition: background 0.5s ease;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 0;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #27ae60 !important;
+    }
+    .nav-link {
+      color: #2c3e50 !important;
+      margin: 0 3px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .nav-link:hover {
+      color: #27ae60 !important;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      background: transparent;
+      border: none;
+      color: #ecf0f1;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .calculator-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 120px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .calculator-container {
+        margin-top: 90px;
+        gap: 15px;
+      }
+      .form-card, .result-card {
+        padding: 20px;
+        min-width: 100%;
+      }
+    }
+
+    .form-card, .result-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-card:hover {
+      transform: translateY(-5px);
+    }
+
+    h2, h3 {
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .form-group label {
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background-color: #27ae60;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #219150;
+    }
+
+    /* Result Card */
+    .result-card {
+      display: none;
+      border-left: 6px solid transparent;
+      animation: fadeIn 0.6s ease-out;
+    }
+    .result-card.low { border-left-color: #27ae60; }
+    .result-card.moderate { border-left-color: #f1c40f; }
+    .result-card.high { border-left-color: #e74c3c; }
+
+    .result-card h3 {
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+    .result-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .result-card li {
+      padding: 8px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .result-card li:last-child {
+      border-bottom: none;
+    }
+
+    .result-icon {
+      margin-right: 10px;
+      color: #27ae60;
+    }
+
+    .suggestions {
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: 12px;
+      border: 1px solid #e0f5e0;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .comparison {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-top: 10px;
+    }
+
+    .chart-container {
+      margin-top: 20px;
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+
+    /* Dark mode adjustments */
+    [data-theme="dark"] .form-control,
+    [data-theme="dark"] .form-select {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      border-color: #4a5b6d;
+    }
+    [data-theme="dark"] .form-control::placeholder {
+      color: #bdc3c7;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="mishara.png" alt="Logo" class="me-2" style="height: 100px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">Case Study</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Leaderboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Solutions</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Tips</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Scan</a></li>
+        <li class="nav-item">
+          <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Calculator + Result -->
+<div class="container calculator-container">
+  <!-- Input Form -->
+  <div class="form-card">
+    <h2>🌱 Green Report Card Generator</h2>
+    <p class="text-muted">Enter your institution’s monthly data to get a sustainability report with charts and recommendations.</p>
+    <form id="institutionForm">
+      <div class="form-group mb-3">
+        <label for="orgName">🏢 Organization Name</label>
+        <input type="text" class="form-control" id="orgName" placeholder="e.g., Green Valley School" required>
+      </div>
+      <div class="form-group mb-3">
+        <label for="orgType">Type</label>
+        <select class="form-control" id="orgType" required>
+          <option value="">Select Type</option>
+          <option value="school">School</option>
+          <option value="college">College/University</option>
+          <option value="office">Corporate Office</option>
+          <option value="hospital">Hospital</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group mb-3">
+        <label for="city">📍 City</label>
+        <input type="text" class="form-control" id="city" placeholder="e.g., Bangalore" required>
+      </div>
+      <div class="form-group mb-3">
+        <label for="occupants">👥 Occupants (approx.)</label>
+        <input type="number" class="form-control" id="occupants" placeholder="e.g., 500" required min="1">
+      </div>
+      <div class="form-group mb-3">
+        <label for="electricity">⚡ Electricity (kWh/month)</label>
+        <input type="number" class="form-control" id="electricity" placeholder="e.g., 12000" required min="0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="water">💧 Water (kL/month)</label>
+        <input type="number" class="form-control" id="water" placeholder="e.g., 600" required min="0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="waste">🗑️ Waste Generated (kg/month)</label>
+        <input type="number" class="form-control" id="waste" placeholder="e.g., 900" required min="0">
+      </div>
+      <div class="form-group mb-3">
+        <label for="wasteRecycled">♻️ Waste Recycled (%)</label>
+        <input type="range" class="form-range" id="wasteRecycled" min="0" max="100" value="0">
+        <div class="text-end"><small id="recycleValue">0%</small></div>
+      </div>
+      <div class="form-group mb-3">
+        <label for="commuteTrips">🚗 Daily Commute Trips</label>
+        <input type="number" class="form-control" id="commuteTrips" placeholder="e.g., 1800" required min="0">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block w-100">Generate Green Report</button>
+    </form>
+  </div>
+
+  <!-- Result Card -->
+  <div class="result-card" id="resultCard">
+    <h3><i class="fas fa-leaf"></i> Green Report Card: <span id="orgNameOutput"></span></h3>
+    <p><strong>📍 Location:</strong> <span id="cityOutput"></span> | <strong>Type:</strong> <span id="typeOutput"></span></p>
+
+    <p><strong>Total Score:</strong> <span id="overallScore" class="text-success fw-bold">0</span>/10</p>
+    <div id="statusOutput"></div>
+    <div id="comparison" class="comparison"></div>
+
+    <!-- Charts -->
+    <div class="chart-container">
+      <h5>📊 Monthly Usage Breakdown</h5>
+      <canvas id="usageChart" height="150"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <h5>🥧 Sustainability Scores</h5>
+      <canvas id="scoreChart" height="150"></canvas>
+    </div>
+
+    <div class="suggestions" id="suggestionBox">
+      Loading suggestions...
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>💡 Tip: Institutions under 3.0 need urgent green interventions. Solar, rainwater, and EVs make a big difference!</p>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Theme Toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const body = document.body;
+
+  themeToggle.addEventListener('click', () => {
+    if (body.getAttribute('data-theme') === 'dark') {
+      body.removeAttribute('data-theme');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+      body.setAttribute('data-theme', 'dark');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+  });
+
+  // Range slider update
+  const recycleSlider = document.getElementById('wasteRecycled');
+  const recycleValue = document.getElementById('recycleValue');
+  recycleSlider.addEventListener('input', () => {
+    recycleValue.textContent = recycleSlider.value + '%';
+  });
+
+  // Chart variables
+  let usageChart = null;
+  let scoreChart = null;
+
+  // Submit Form
+  document.getElementById('institutionForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Get values
+    const orgName = document.getElementById('orgName').value;
+    const orgType = document.getElementById('orgType').value;
+    const city = document.getElementById('city').value;
+    const occupants = parseFloat(document.getElementById('occupants').value) || 1;
+    const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+    const water = parseFloat(document.getElementById('water').value) || 0;
+    const waste = parseFloat(document.getElementById('waste').value) || 0;
+    const wasteRecycled = parseFloat(document.getElementById('wasteRecycled').value) || 0;
+    const commuteTrips = parseFloat(document.getElementById('commuteTrips').value) || 0;
+
+    // Per capita
+    const elecPerCap = electricity / occupants;
+    const waterPerCap = water / occupants;
+    const wastePerCap = waste / occupants;
+
+    // Scoring (0–10)
+    const energyScore = Math.max(0, Math.min(10, 10 - (elecPerCap / 100))).toFixed(1);
+    const waterScore = Math.max(0, Math.min(10, 10 - (waterPerCap / 5))).toFixed(1);
+    const wasteScore = Math.max(0, Math.min(10, (wasteRecycled / 10) + (wastePerCap < 1 ? 3 : 0))).toFixed(1);
+    const transportScore = Math.max(0, Math.min(10, (commuteTrips / occupants) < 2 ? 8 : 4)).toFixed(1);
+
+    const overallScore = (((+energyScore) + (+waterScore) + (+wasteScore) + (+transportScore)) / 4).toFixed(1);
+
+    // Status
+    let status, colorClass;
+    if (overallScore >= 7) {
+      status = "Excellent 🌿";
+      colorClass = "low";
+    } else if (overallScore >= 4) {
+      status = "Moderate ⚖️";
+      colorClass = "moderate";
+    } else {
+      status = "Needs Improvement ⚠️";
+      colorClass = "high";
+    }
+
+    // Update result
+    const resultCard = document.getElementById('resultCard');
+    resultCard.style.display = 'block';
+    resultCard.className = 'result-card ' + colorClass;
+
+    document.getElementById('orgNameOutput').textContent = orgName;
+    document.getElementById('cityOutput').textContent = city;
+    document.getElementById('typeOutput').textContent = orgType;
+    document.getElementById('overallScore').textContent = overallScore;
+    document.getElementById('statusOutput').innerHTML = `<strong>Status:</strong> ${status}`;
+
+    // Tree equivalent (1 tree ≈ 22kg CO₂/year)
+    const estimatedCO2 = (electricity * 0.92 * 12) / 1000; // tonnes/year
+    const treesNeeded = (estimatedCO2 * 1000 / 22).toFixed(1);
+    document.getElementById('comparison').innerHTML = 
+      `Your electricity use emits ~${estimatedCO2.toFixed(1)} tonnes CO₂/year — equivalent to <strong>${treesNeeded} trees</strong> needed to offset.`;
+
+    // Suggestions
+    const suggestions = [];
+    if (energyScore < 6) suggestions.push("✅ Install <strong>solar panels</strong> to reduce grid dependence.");
+    if (waterScore < 6) suggestions.push("✅ Implement <strong>rainwater harvesting</strong> and low-flow fixtures.");
+    if (wasteScore < 5) suggestions.push("✅ Start a <strong>composting & recycling program</strong>.");
+    if (transportScore < 5) suggestions.push("✅ Promote carpooling or install <strong>EV charging stations</strong>.");
+
+    document.getElementById('suggestionBox').innerHTML = suggestions.length > 0
+      ? "<strong>💡 Action Items:</strong><br>" + suggestions.map(s => s).join("<br>")
+      : "Great job! You're already sustainable.";
+
+    // Update Charts
+    updateUsageChart(electricity, water, waste, commuteTrips);
+    updateScoreChart(energyScore, waterScore, wasteScore, transportScore);
+
+    // Save result
+    localStorage.setItem('lastGreenReport', JSON.stringify({ orgName, overallScore, date: new Date().toLocaleDateString() }));
+  });
+
+  function updateUsageChart(elec, water, waste, commute) {
+    const ctx = document.getElementById('usageChart').getContext('2d');
+    if (usageChart) usageChart.destroy();
+
+    usageChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Electricity (kWh)', 'Water (kL)', 'Waste (kg)', 'Commute (trips)'],
+        datasets: [{
+          label: 'Monthly Usage',
+          data: [elec, water, waste, commute],
+          backgroundColor: [
+            '#27ae60', '#3498db', '#f1c40f', '#e74c3c'
+          ],
+          borderColor: '#fff',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.y}` } }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  function updateScoreChart(energy, water, waste, transport) {
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+    if (scoreChart) scoreChart.destroy();
+
+    scoreChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Energy', 'Water', 'Waste', 'Transport'],
+        datasets: [{
+          data: [energy, water, waste, transport],
+          backgroundColor: ['#27ae60', '#3498db', '#f1c40f', '#9b59b6'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed.toFixed(1)}/10` } }
+        }
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -27,8 +27,9 @@
 
     /* Navbar */
     .navbar {
-      background: #121829;
-      padding: 12px 0;
+      background:rgb(220, 255, 237);
+      padding: 0;
+      opacity: 0.95;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     .navbar-brand {
@@ -37,8 +38,8 @@
       color: #27ae60 !important;
     }
     .nav-link {
-      color: #ecf0f1 !important;
-      margin: 0 8px;
+      color: black !important;
+      margin: 0 3px;
       font-weight: 500;
       transition: color 0.3s ease;
     }
@@ -46,12 +47,30 @@
       color: #27ae60 !important;
     }
 
+    .card.h-100.shadow-sm {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.card.h-100.shadow-sm:hover {
+  background-color: rgb(137, 249, 158); /* Bootstrap green */
+  color: #000; /* keep text black */
+  transform: translateY(-5px); /* slight lift effect */
+}
+
+.card.h-100.shadow-sm:hover .card-title,
+.card.h-100.shadow-sm:hover .card-text,
+.card.h-100.shadow-sm:hover i {
+  color: #000; /* make sure title, text, and icons stay black */
+}
+
+
+
     /* Hero Section */
     .hero {
       position: relative;
       padding: 180px 20px 140px;
       text-align: center;
-      background-image: url("s.jpg");
+      background-image: url("./WhatsApp\ Image\ 2025-08-22\ at\ 11.07.49\ AM.jpeg");
       background-size: cover;
       background-position: center;
       color: #fff;
@@ -130,7 +149,7 @@
     /* About Section */
     .about {
       padding: 100px 20px;
-      background: #fff;
+      background:rgb(220, 255, 237)
     }
     .about p {
       max-width: 800px;
@@ -143,7 +162,7 @@
     /* Features Section (Icons Only) */
     .features-section {
       padding: 100px 20px;
-      background: #f4f7f4;
+      background:rgb(220, 255, 237)
     }
     .features-section .card {
       border: none;
@@ -183,7 +202,7 @@
     /* Key Features (Older Style) */
     .features {
       padding: 100px 20px;
-      background: #fff;
+      background:rgb(220, 255, 237)
     }
     .feature-card {
       background: #f9fbf9;
@@ -275,8 +294,8 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="home.html">
-        <img src="—Pngtree—women nature logo_7598961.png" alt="Logo" style="height: 70px;">
+      <a class="navbar-brand" href="index.html">
+        <img src="mishara.png" alt="Logo" style="height:100px; padding: 0; margin: 0;">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -284,12 +303,14 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="calculator.html">Calculator</a></li>
+          <li class="nav-item"><a class="nav-link" href="game.html">Achivements</a></li>
+          <li class="nav-item"><a class="nav-link" href="donation.html">Donation</a></li>
+           <li class="nav-item"><a class="nav-link" href="green_card.html">Report</a></li>
+       
           <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="offset.html">Carbon Offset</a></li>
-          <li class="nav-item"><a class="nav-link" href="eco-tips.html">Eco Tips</a></li>
-          <li class="nav-item"><a class="nav-link" href="/static/barcode-scanner.html">Scan Barcode</a></li>
+          <li class="nav-item"><a class="nav-link" href="barcode.php">Scan Barcode</a></li>
           <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+          <li class="nav-item"><a class="nav-link" href="bioenergy.html">Bio-energy</a></li>
         </ul>
       </div>
     </div>
@@ -298,8 +319,8 @@
   <!-- Hero Section -->
   <section class="hero d-flex align-items-center">
     <div class="container hero-content" data-aos="fade-up">
-      <h1>Track. Offset. <span style="color:#27ae60;">Thrive.</span></h1>
-      <p>Empowering you to live sustainably and reduce your carbon footprint 🌍</p>
+      <h1>Track. Save. <span style="color:#27ae60;">Protect.</span></h1>
+      <p>Sustainable living isn't about giving up everything you love. Instead, it's a mindful shift toward making conscious choices. It's about embracing a lifestyle that is both rewarding for you and restorative for the planet.</p>
       <div>
         <a href="signup.html" class="btn btn-success">Get Started</a>
         <a href="login.html" class="btn btn-outline-light">Login</a>
@@ -317,6 +338,7 @@
       </p>
     </div>
   </section>
+  <br>
 
   <!-- Features Section with Icons -->
   <section class="features-section" data-aos="fade-up">
@@ -378,6 +400,7 @@
       </div>
     </div>
   </section>
+  <br>
 
   <!-- Key Features -->
   <section class="features text-center">
@@ -398,7 +421,7 @@
         </div>
         <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
           <div class="feature-card">
-            <h3><i class="bi bi-tree"></i> Carbon Offsets</h3>
+            <h3><i class="bi bi-tree"></i>Donations</h3>
             <p>Support verified reforestation and renewable energy projects to neutralize your emissions.</p>
           </div>
         </div>

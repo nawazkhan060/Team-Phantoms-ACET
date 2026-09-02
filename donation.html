@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support Our Mission - Donate</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons (with full brand support) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #d1fae5);
+    }
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+    }
+    .donate-card {
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .navbar{
+        background:rgb(220, 255, 237);
+    }
+    .donate-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 30px -12px rgba(16, 185, 129, 0.25);
+    }
+    .donate-card.selected {
+      border: 2px solid #10b981;
+      background: linear-gradient(to bottom, #f0fdf4, #ffffff);
+    }
+    .input-focus {
+      transition: all 0.3s ease-out;
+    }
+    .input-focus:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+      outline: none;
+    }
+    .method-selected {
+      border: 2px solid #10b981 !important;
+      background: linear-gradient(to bottom, #f0fdf4, #ffffff) !important;
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,253,244,0.95));
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+    }
+    .btn-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.1);
+    }
+    .footer-link:hover {
+      color: #10b981;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+  <!-- ✅ Premium Navbar -->
+  <nav id="navbar" class="bg-white/80 backdrop-blur-xl shadow-lg rounded-b-3xl mb-10 fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="flex justify-between items-center h-18">
+        <a href="home.html" class="flex items-center space-x-3 group">
+          <div class="relative">
+            <img src="mishara.png" alt="Mishara Logo" class="h-14 group-hover:scale-110 transition-transform duration-300" />
+          </div>
+    
+        </a>
+
+        <div class="hidden md:flex space-x-8">
+          <a href="calculator.html" class="text-sm font-medium text-gray-700 hover:text-emerald-600 transition relative group">Calculator</a>
+          <a href="game.html" class="text-sm font-medium text-gray-700 hover:text-emerald-600 transition relative group">Achievements</a>
+          <a href="offset.html" class="text-sm font-medium text-gray-700 hover:text-emerald-600 transition relative group">Carbon Offset</a>
+          <a href="eco-tips.html" class="text-sm font-medium text-gray-700 hover:text-emerald-600 transition relative group">Eco Tips</a>
+          <a href="dashboard.html" class="text-sm font-medium text-gray-700 hover:text-emerald-600 transition relative group">Dashboard</a>
+          <a href="profile.html" class="text-sm font-medium text-gray-700 hover:text-emerald-600 transition relative group">Profile</a>
+        </div>
+
+        <button id="menu-button" class="md:hidden text-gray-700 p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-lg rounded-b-2xl shadow-xl mt-2 pb-4 px-4 space-y-3">
+        <a href="calculator.html" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 rounded-lg transition">Calculator</a>
+        <a href="game.html" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 rounded-lg transition">Achievements</a>
+        <a href="offset.html" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 rounded-lg transition">Carbon Offset</a>
+        <a href="eco-tips.html" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 rounded-lg transition">Eco Tips</a>
+        <a href="dashboard.html" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 rounded-lg transition">Dashboard</a>
+        <a href="profile.html" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 rounded-lg transition">Profile</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="pt-24"></div>
+
+  <!-- Hero Section -->
+  <section class="py-20 px-6">
+    <div class="max-w-5xl mx-auto text-center hero-gradient p-12 md:p-16 relative">
+      <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">Support a Greener Tomorrow</h1>
+      <p class="text-lg md:text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+        Every dollar you give helps protect forests, reduce emissions, and empower sustainable communities worldwide.
+      </p>
+
+      <!-- Donation Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div class="donate-card bg-white rounded-2xl shadow-lg p-6 cursor-pointer" data-amount="25" data-info="tree">
+          <div class="text-6xl mb-3">🌱</div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-1">$25</h3>
+          <p class="text-gray-600">Plant 10 trees</p>
+        </div>
+        <div class="donate-card bg-white rounded-2xl shadow-lg p-6 cursor-pointer" data-amount="50" data-info="transport">
+          <div class="text-6xl mb-3">🚲</div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-1">$50</h3>
+          <p class="text-gray-600">Support green transport</p>
+        </div>
+        <div class="donate-card bg-white rounded-2xl shadow-lg p-6 cursor-pointer" data-amount="100" data-info="carbon">
+          <div class="text-6xl mb-3">🌍</div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-1">$100</h3>
+          <p class="text-gray-600">Offset 1 ton of CO₂</p>
+        </div>
+        <div class="donate-card bg-white rounded-2xl shadow-lg p-6 cursor-pointer" data-amount="250" data-info="solar">
+          <div class="text-6xl mb-3">🏡</div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-1">$250</h3>
+          <p class="text-gray-600">Fund a family solar kit</p>
+        </div>
+      </div>
+
+      <!-- Custom Amount -->
+      <div class="max-w-xs mx-auto">
+        <label for="custom-amount" class="block text-gray-700 font-medium mb-3 text-left">Or enter your own amount</label>
+        <div class="flex items-center">
+          <span class="bg-gradient-to-b from-emerald-500 to-emerald-600 text-white px-5 py-4 rounded-l-xl text-lg font-semibold">$</span>
+          <input type="number" id="custom-amount" min="1" value="50" class="w-full px-5 py-4 border border-gray-300 rounded-r-xl input-focus text-lg">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment Section -->
+  <section class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-10 mb-16">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+      <svg data-lucide="credit-card" class="w-8 h-8 mr-3 text-emerald-600"></svg>
+      Secure Donation
+    </h2>
+
+    <form id="donation-form" class="space-y-7">
+      <div>
+        <label for="name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+        <input type="text" id="name" class="w-full px-5 py-4 border border-gray-300 rounded-xl input-focus" placeholder="Jane Doe" required>
+      </div>
+
+      <div>
+        <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+        <input type="email" id="email" class="w-full px-5 py-4 border border-gray-300 rounded-xl input-focus" placeholder="jane@example.com" required>
+      </div>
+
+      <div>
+        <label for="final-amount" class="block text-gray-700 font-medium mb-2">Donation Amount</label>
+        <div class="flex items-center">
+          <span class="bg-gray-100 px-5 py-4 rounded-l-xl border border-r-0 border-gray-300 text-lg font-medium">$</span>
+          <input type="number" id="final-amount" class="w-full px-5 py-4 border border-gray-300 rounded-r-xl input-focus text-lg" value="50" min="1" required>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-4">Payment Method</label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-2">
+          <label class="flex flex-col items-center p-5 border-2 border-gray-200 rounded-xl cursor-pointer method-option" data-method="card">
+            <svg data-lucide="credit-card" class="w-10 h-10 text-gray-700 mb-2"></svg>
+            <span class="text-sm font-semibold">Card</span>
+          </label>
+          <label class="flex flex-col items-center p-5 border-2 border-gray-200 rounded-xl cursor-pointer method-option" data-method="paypal">
+            <i class="fab fa-paypal fa-2x" style="color:#003087;"></i>
+            <span class="text-sm font-semibold">PayPal</span>
+          </label>
+          <label class="flex flex-col items-center p-5 border-2 border-gray-200 rounded-xl cursor-pointer method-option" data-method="apple">
+             <i class="fab fa-apple-pay fa-2x" style="color:#000;"></i>
+            <span class="text-sm font-semibold">Apple</span>
+          </label>
+          <label class="flex flex-col items-center p-5 border-2 border-gray-200 rounded-xl cursor-pointer method-option" data-method="google">
+           <i class="fab fa-google-pay fa-2x" style="color:#4285F4;"></i>
+            <span class="text-sm font-semibold">Google</span>
+          </label>
+        </div>
+        <input type="hidden" id="payment-method" value="card">
+      </div>
+
+      <div id="card-details">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+          <div>
+            <label for="card-number" class="block text-gray-700 text-sm font-medium mb-2">Card Number</label>
+            <input type="text" id="card-number" class="w-full px-5 py-4 border border-gray-300 rounded-xl input-focus" placeholder="1234 5678 9012 3456" required>
+          </div>
+          <div>
+            <label for="card-name" class="block text-gray-700 text-sm font-medium mb-2">Name on Card</label>
+            <input type="text" id="card-name" class="w-full px-5 py-4 border border-gray-300 rounded-xl input-focus" placeholder="Jane Doe" required>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="col-span-2">
+            <label for="expiry" class="block text-gray-700 text-sm font-medium mb-2">Expiry (MM/YY)</label>
+            <input type="text" id="expiry" class="w-full px-5 py-4 border border-gray-300 rounded-xl input-focus" placeholder="04/28" required>
+          </div>
+          <div>
+            <label for="cvc" class="block text-gray-700 text-sm font-medium mb-2">CVC</label>
+            <input type="text" id="cvc" class="w-full px-5 py-4 border border-gray-300 rounded-xl input-focus" placeholder="123" required>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white text-lg font-bold py-4 px-8 rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 btn-hover focus:ring-6 focus:ring-emerald-300 shadow-lg">
+        Donate Now
+      </button>
+    </form>
+  </section>
+
+  <!-- Donation Info Modal -->
+  <div id="info-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md mx-4 p-6 text-center border border-emerald-200">
+      <div id="modal-icon" class="text-6xl mb-4"></div>
+      <h3 id="modal-title" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+      <p id="modal-description" class="text-gray-600 mb-6"></p>
+      <button id="close-modal" class="px-6 py-2 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 transition">
+        Got it!
+      </button>
+    </div>
+  </div>
+  <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+  <!-- Trust & Impact -->
+  <section class="max-w-5xl mx-auto text-center px-6 mb-16">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">Your Impact Matters</h2>
+    <p class="text-gray-600 mb-12">We’re committed to transparency, security, and real environmental change.</p>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+        <svg data-lucide="shield-check" class="w-14 h-14 text-emerald-500 mx-auto mb-5"></svg>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Secure Payments</h3>
+        <p class="text-gray-600">All donations are encrypted. We never store your card details.</p>
+      </div>
+      <div class="p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+        <svg data-lucide="leaf" class="w-14 h-14 text-emerald-500 mx-auto mb-5"></svg>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Real Impact</h3>
+        <p class="text-gray-600">100% of your donation funds verified environmental projects.</p>
+      </div>
+      <div class="p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+        <svg data-lucide="receipt" class="w-14 h-14 text-emerald-500 mx-auto mb-5"></svg>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Tax Deductible</h3>
+        <p class="text-gray-600">You’ll receive an official receipt. 501(c)(3) compliant.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-50 border-t border-gray-200 py-10">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <p class="text-gray-600 text-sm">
+        &copy; 2025 <span class="font-semibold text-emerald-700">Mishara</span>. Empowering a sustainable future.
+      </p>
+      <div class="mt-4 space-x-6">
+        <a href="privacy.html" class="text-gray-500 hover:text-emerald-600 text-sm footer-link">Privacy</a>
+        <a href="terms.html" class="text-gray-500 hover:text-emerald-600 text-sm footer-link">Terms</a>
+        <a href="contact.html" class="text-gray-500 hover:text-emerald-600 text-sm footer-link">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Mobile menu toggle
+    const menuButton = document.getElementById('menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      menuButton.innerHTML = mobileMenu.classList.contains('hidden') ?
+        '<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>' :
+        '<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+    });
+
+    // Close menu on link click
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';
+      });
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-xl');
+        navbar.classList.remove('rounded-b-3xl');
+      } else {
+        navbar.classList.remove('shadow-xl');
+        navbar.classList.add('rounded-b-3xl');
+      }
+    });
+
+    // Donation info data
+    const donationInfo = {
+      tree: {
+        icon: '🌱',
+        title: 'Plant 10 Trees',
+        description: 'Your $25 funds reforestation in Africa and South America. Each tree absorbs CO₂, restores habitats, and supports communities.'
+      },
+      transport: {
+        icon: '🚲',
+        title: 'Support Green Transport',
+        description: '$50 helps provide bike-sharing or electric bus subsidies in cities, reducing emissions and promoting clean mobility.'
+      },
+      carbon: {
+        icon: '🌍',
+        title: 'Offset 1 Ton of CO₂',
+        description: 'Funds verified projects like forest conservation and renewable energy. Equals the emissions from driving 2,500 miles.'
+      },
+      solar: {
+        icon: '🏡',
+        title: 'Fund a Solar Kit',
+        description: 'Provides a family with solar lighting and phone charging, replacing kerosene lamps and improving safety and education.'
+      }
+    };
+
+    // Open modal on card click
+    document.querySelectorAll('.donate-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const infoKey = card.getAttribute('data-info');
+        const info = donationInfo[infoKey];
+        if (info) {
+          document.getElementById('modal-icon').textContent = info.icon;
+          document.getElementById('modal-title').textContent = info.title;
+          document.getElementById('modal-description').textContent = info.description;
+          document.getElementById('info-modal').classList.remove('hidden');
+          document.getElementById('modal-overlay').classList.remove('hidden');
+        }
+      });
+    });
+
+    // Close modal
+    document.getElementById('close-modal').addEventListener('click', () => {
+      document.getElementById('info-modal').classList.add('hidden');
+      document.getElementById('modal-overlay').classList.add('hidden');
+    });
+    document.getElementById('modal-overlay').addEventListener('click', () => {
+      document.getElementById('info-modal').classList.add('hidden');
+      document.getElementById('modal-overlay').classList.add('hidden');
+    });
+
+    // Donation amount selection
+    const amountCards = document.querySelectorAll('.donate-card');
+    const customAmount = document.getElementById('custom-amount');
+    const finalAmount = document.getElementById('final-amount');
+
+    amountCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const amount = card.getAttribute('data-amount');
+        customAmount.value = amount;
+        finalAmount.value = amount;
+        amountCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+      });
+    });
+
+    customAmount.addEventListener('input', () => {
+      finalAmount.value = customAmount.value;
+      amountCards.forEach(c => c.classList.remove('selected'));
+    });
+
+    // Payment method selection
+    const methodLabels = document.querySelectorAll('.method-option');
+    const cardDetails = document.getElementById('card-details');
+    const paymentMethodInput = document.getElementById('payment-method');
+
+    methodLabels.forEach(label => {
+      label.addEventListener('click', () => {
+        methodLabels.forEach(l => l.classList.remove('method-selected'));
+        label.classList.add('method-selected');
+        const method = label.getAttribute('data-method');
+        paymentMethodInput.value = method;
+        cardDetails.style.display = method === 'card' ? 'block' : 'none';
+      });
+    });
+
+    // Default: card selected
+    document.querySelector('[data-method="card"]').click();
+
+    // Form submission
+    document.getElementById('donation-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const amount = finalAmount.value;
+      alert(`🎉 Thank you for your generous donation of $${amount}!\nA receipt will be emailed to you. Your support makes a real difference.`);
+    });
+  </script>
+</body>
+</html>

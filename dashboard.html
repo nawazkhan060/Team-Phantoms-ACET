@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoTracker - CO2 Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-green: #22c55e;
+      --primary-green-light: #4ade80;
+      --primary-green-dark: #16a34a;
+      --secondary-green: #10b981;
+      --accent-green: #059669;
+      --light-green: #ecfdf5;
+      --medium-green: #d1fae5;
+      --dark-green: #064e3b;
+      --text-dark: #1f2937;
+      --text-medium: #6b7280;
+      --text-light: #9ca3af;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--light-green) 0%, var(--white) 100%);
+      min-height: 100vh;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+   .navbar {
+      background:rgb(220, 255, 237);
+      padding: 0;
+      opacity: 0.95;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #27ae60 !important;
+    }
+    .nav-link {
+      color: black !important;
+      margin: 0 3px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .nav-link:hover {
+      color: #27ae60 !important;
+    }
+
+
+    .container {
+      max-width: 1200px;
+      margin-top: 2rem;
+      padding: 0 1rem;
+    }
+
+    .dashboard-content {
+      margin-top: 180px !important;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-content {
+        margin-top: 100px !important;
+      }
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      transition: all 0.2s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 1.25rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-header i {
+      color: var(--primary-green);
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-green);
+    }
+
+    .stat-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary-green);
+      display: block;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+
+    .stat-label {
+      color: var(--text-medium);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .form-floating {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-floating input {
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .form-floating input:focus {
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    }
+
+    .form-floating label {
+      color: var(--text-medium);
+    }
+
+    .btn-primary {
+      background: var(--primary-green);
+      border: 1px solid var(--primary-green);
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-green-dark);
+      border-color: var(--primary-green-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:focus {
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+    }
+
+    .chart-container {
+      height: 400px;
+      position: relative;
+    }
+
+    .total-emissions {
+      text-align: center;
+      padding: 2rem;
+      margin: 2rem 0;
+      background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+      border-radius: 12px;
+      color: var(--white);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .total-emissions .value {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .total-emissions .label {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      background: var(--white);
+      margin-top: 3rem;
+      border-top: 1px solid var(--gray-200);
+      color: var(--text-medium);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+
+    /* Green accents for different categories */
+    .stat-card:nth-child(1) .stat-icon { color: var(--primary-green); }
+    .stat-card:nth-child(2) .stat-icon { color: var(--secondary-green); }
+    .stat-card:nth-child(3) .stat-icon { color: var(--accent-green); }
+    .stat-card:nth-child(4) .stat-icon { color: var(--primary-green-light); }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .total-emissions .value {
+        font-size: 2.5rem;
+      }
+      
+      .container {
+        padding: 0 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="mishara.png" alt="Logo" style="height:100px; padding: 0; margin: 0;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="calculator.html">Calculator</a></li>
+          <li class="nav-item"><a class="nav-link" href="game.html">Achivements</a></li>
+          <li class="nav-item"><a class="nav-link" href="donation.html">Donation</a></li>
+          <li class="nav-item"><a class="nav-link" href="eco-tips.html">Eco Tips</a></li>
+          <li class="nav-item"><a class="nav-link" href="barcode.php">Scan Barcode</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <br>
+
+  <div class="container dashboard-content">
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+      <div class="stat-card fade-in stagger-1">
+        <i class="fas fa-utensils stat-icon"></i>
+        <div class="stat-value" id="foodStat">100</div>
+        <div class="stat-label">Food Consumption</div>
+      </div>
+      <div class="stat-card fade-in stagger-2">
+        <i class="fas fa-car stat-icon"></i>
+        <div class="stat-value" id="travelStat">150</div>
+        <div class="stat-label">Travel Emissions</div>
+      </div>
+      <div class="stat-card fade-in stagger-3">
+        <i class="fas fa-shopping-bag stat-icon"></i>
+        <div class="stat-value" id="shoppingStat">80</div>
+        <div class="stat-label">Shopping Impact</div>
+      </div>
+      <div class="stat-card fade-in stagger-4">
+        <i class="fas fa-bolt stat-icon"></i>
+        <div class="stat-value" id="electricityStat">200</div>
+        <div class="stat-label">Energy Usage</div>
+      </div>
+    </div>
+
+    <!-- Total Emissions -->
+    <div class="total-emissions fade-in">
+      <div class="value" id="totalEmissions">530</div>
+      <div class="label">Total CO₂ Emissions (kg)</div>
+    </div>
+
+    <div class="row">
+      <!-- Input Form -->
+      <div class="col-md-12 mb-4">
+        <div class="card fade-in">
+          <div class="card-header">
+            <i class="fas fa-edit"></i>
+            Update Consumption Data
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-floating">
+                  <input type="number" id="food" class="form-control" value="100" min="0" placeholder="Food" />
+                  <label for="food">Food Consumption (kg CO₂)</label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-floating">
+                  <input type="number" id="travel" class="form-control" value="150" min="0" placeholder="Travel" />
+                  <label for="travel">Travel Emissions (kg CO₂)</label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-floating">
+                  <input type="number" id="shopping" class="form-control" value="80" min="0" placeholder="Shopping" />
+                  <label for="shopping">Shopping Impact (kg CO₂)</label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-floating">
+                  <input type="number" id="electricity" class="form-control" value="200" min="0" placeholder="Electricity" />
+                  <label for="electricity">Energy Usage (kg CO₂)</label>
+                </div>
+              </div>
+            </div>
+            <div class="text-center mt-3">
+              <button class="btn btn-primary" id="updateGraphBtn">
+                <i class="fas fa-sync-alt"></i>
+                Update Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="col-md-6 mb-4">
+        <div class="card fade-in">
+          <div class="card-header">
+            <i class="fas fa-chart-pie"></i>
+            Emissions Breakdown
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="carbonPieChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <div class="card fade-in">
+          <div class="card-header">
+            <i class="fas fa-chart-line"></i>
+            Emissions Comparison
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="carbonLineChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 EcoTracker. Building a sustainable future through data-driven insights.</p>
+  </footer>
+
+  <script>
+    // Get elements
+    const foodInput = document.getElementById('food');
+    const travelInput = document.getElementById('travel');
+    const shoppingInput = document.getElementById('shopping');
+    const electricityInput = document.getElementById('electricity');
+    const updateGraphBtn = document.getElementById('updateGraphBtn');
+
+    // Stat elements
+    const foodStat = document.getElementById('foodStat');
+    const travelStat = document.getElementById('travelStat');
+    const shoppingStat = document.getElementById('shoppingStat');
+    const electricityStat = document.getElementById('electricityStat');
+    const totalEmissions = document.getElementById('totalEmissions');
+
+    // Chart configuration with green theme
+    Chart.defaults.color = '#374151';
+    Chart.defaults.borderColor = '#e5e7eb';
+    Chart.defaults.backgroundColor = '#f3f4f6';
+
+    // Initial data with green color scheme
+    let carbonData = {
+      labels: ['Food', 'Travel', 'Shopping', 'Electricity'],
+      datasets: [{
+        data: [100, 150, 80, 200],
+        backgroundColor: [
+          '#22c55e',  // Primary green
+          '#10b981',  // Secondary green
+          '#059669',  // Accent green
+          '#4ade80'   // Light green
+        ],
+        borderColor: '#ffffff',
+        borderWidth: 2,
+        hoverBackgroundColor: [
+          '#16a34a',
+          '#047857',
+          '#065f46',
+          '#22c55e'
+        ]
+      }]
+    };
+
+    // Pie Chart Configuration
+    const carbonPieConfig = {
+      type: 'doughnut',
+      data: carbonData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { 
+            position: 'bottom',
+            labels: {
+              padding: 20,
+              usePointStyle: true,
+              font: { size: 14, family: 'Inter', weight: '500' }
+            }
+          },
+          tooltip: { 
+            callbacks: { 
+              label: function(context) { 
+                return context.label + ': ' + context.raw + ' kg CO₂'; 
+              } 
+            },
+            backgroundColor: '#1f2937',
+            titleColor: 'white',
+            bodyColor: 'white',
+            borderColor: '#22c55e',
+            borderWidth: 1
+          }
+        },
+        cutout: '65%',
+        animation: {
+          animateRotate: true,
+          duration: 800
+        }
+      }
+    };
+
+    // Line Chart Configuration
+    const carbonLineConfig = {
+      type: 'line',
+      data: {
+        labels: ['Food', 'Travel', 'Shopping', 'Electricity'],
+        datasets: [{
+          label: 'Current Emissions (kg CO₂)',
+          data: [100, 150, 80, 200],
+          backgroundColor: 'rgba(34, 197, 94, 0.1)',
+          borderColor: '#22c55e',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.3,
+          pointBackgroundColor: '#22c55e',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8
+        }, {
+          label: 'Target Emissions (kg CO₂)',
+          data: [80, 120, 60, 160],
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          borderColor: '#10b981',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.3,
+          pointBackgroundColor: '#10b981',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { 
+            beginAtZero: true,
+            grid: { color: '#f3f4f6' },
+            ticks: { font: { family: 'Inter', weight: '500' } }
+          },
+          y: { 
+            beginAtZero: true,
+            grid: { color: '#f3f4f6' },
+            ticks: { font: { family: 'Inter', weight: '500' } }
+          }
+        },
+        plugins: {
+          legend: { 
+            display: true, 
+            position: 'top',
+            labels: {
+              padding: 20,
+              usePointStyle: true,
+              font: { size: 14, family: 'Inter', weight: '500' }
+            }
+          },
+          tooltip: {
+            backgroundColor: '#1f2937',
+            titleColor: 'white',
+            bodyColor: 'white',
+            borderColor: '#22c55e',
+            borderWidth: 1
+          }
+        },
+        animation: {
+          duration: 800,
+          easing: 'easeInOutCubic'
+        }
+      }
+    };
+
+    // Initialize charts
+    const ctxPie = document.getElementById('carbonPieChart').getContext('2d');
+    const carbonPieChart = new Chart(ctxPie, carbonPieConfig);
+
+    const ctxLine = document.getElementById('carbonLineChart').getContext('2d');
+    const carbonLineChart = new Chart(ctxLine, carbonLineConfig);
+
+    // Update function
+    function updateDashboard() {
+      const foodValue = parseInt(foodInput.value) || 0;
+      const travelValue = parseInt(travelInput.value) || 0;
+      const shoppingValue = parseInt(shoppingInput.value) || 0;
+      const electricityValue = parseInt(electricityInput.value) || 0;
+      const total = foodValue + travelValue + shoppingValue + electricityValue;
+
+      // Update stats
+      foodStat.textContent = foodValue;
+      travelStat.textContent = travelValue;
+      shoppingStat.textContent = shoppingValue;
+      electricityStat.textContent = electricityValue;
+      totalEmissions.textContent = total;
+
+      // Update charts
+      carbonData.datasets[0].data = [foodValue, travelValue, shoppingValue, electricityValue];
+      carbonPieChart.update();
+
+      carbonLineConfig.data.datasets[0].data = [foodValue, travelValue, shoppingValue, electricityValue];
+      carbonLineChart.update();
+    }
+
+    // Event listeners
+    updateGraphBtn.addEventListener('click', updateDashboard);
+
+    // Real-time updates
+    [foodInput, travelInput, shoppingInput, electricityInput].forEach(input => {
+      input.addEventListener('input', () => {
+        clearTimeout(input.timeout);
+        input.timeout = setTimeout(updateDashboard, 300);
+      });
+    });
+
+    // Initial animation
+    setTimeout(() => {
+      document.querySelectorAll('.fade-in').forEach(el => el.style.opacity = '1');
+    }, 100);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,37 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carbon Footprint Calculator</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Carbon Footprint Calculator</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
+ :root {
+  --bg-primary: #f9fdf9;   /* very light white-green */
+  --bg-secondary: #e6f7ec; /* soft green tint */
+  --text-dark: #2c3e50;
+  --card-bg: #ffffff;
+  --navbar-bg: #121829;
+  --btn-primary: #27ae60;
+  --shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #dff5e3;   /* pastel green */
+  --bg-secondary: #c8eccf; /* slightly darker green */
+  --card-bg: #f0fff4;      /* light mint */
+  --text-dark: #1a1a1a;    /* black for readability */
+  --shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #e8f5e9, #f0f4f8);
+      background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+      color: var(--text-dark);
+      transition: background 0.5s ease;
       min-height: 100vh;
+      margin: 0;
     }
 
     /* Navbar */
+   
+    /* Navbar */
     .navbar {
-      background: linear-gradient(90deg, #2ecc71, #27ae60);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-    .navbar .nav-link {
-      color: #fff !important;
-      font-weight: 500;
-      margin-left: 15px;
-      transition: color 0.3s ease-in-out;
-    }
-    .navbar .nav-link:hover {
-      color: #f1c40f !important;
+      background:rgb(220, 255, 237);
+      padding: 0;
+      opacity: 0.95;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     .navbar-brand {
-      font-weight: 600;
-      font-size: 1.3rem;
-      color: #fff !important;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #27ae60 !important;
+    }
+    .nav-link {
+      color: black !important;
+      margin: 0 3px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .nav-link:hover {
+      color: #27ae60 !important;
+    }
+
+    /* Toggle Switch */
+    .theme-toggle {
+      background: transparent;
+      border: none;
+      color: #ecf0f1;
+      font-size: 1.2rem;
+      cursor: pointer;
     }
 
     /* Layout */
@@ -40,29 +85,38 @@
       flex-wrap: wrap;
       gap: 30px;
       justify-content: center;
-      margin-top: 60px;
-      margin-bottom: 40px;
+      margin-top: 120px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .calculator-container {
+        margin-top: 90px;
+        gap: 15px;
+      }
+      .form-card, .result-card {
+        padding: 20px;
+        min-width: 100%;
+      }
     }
 
     .form-card, .result-card {
-      background: #fff;
+      background: var(--card-bg);
       padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
       flex: 1;
       min-width: 300px;
-      max-width: 480px;
-      transition: transform 0.3s ease;
+      max-width: 500px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .form-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-5px);
     }
 
-    h2 {
-      color: #2c3e50;
+    h2, h3 {
+      color: var(--text-dark);
       font-weight: 600;
-      margin-bottom: 25px;
-      font-size: 1.8rem;
     }
 
     .form-group label {
@@ -72,21 +126,24 @@
     .btn-primary {
       background-color: #27ae60;
       border: none;
-      transition: background-color 0.3s ease-in-out;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
     }
     .btn-primary:hover {
       background-color: #219150;
     }
 
-    /* Result card */
+    /* Result Card */
     .result-card {
       display: none;
       border-left: 6px solid transparent;
-      animation: fadeIn 0.5s ease-in-out;
+      animation: fadeIn 0.6s ease-out;
     }
-    .result-card.low { border-color: #27ae60; }
-    .result-card.moderate { border-color: #f1c40f; }
-    .result-card.high { border-color: #e74c3c; }
+    .result-card.low { border-left-color: #27ae60; }
+    .result-card.moderate { border-left-color: #f1c40f; }
+    .result-card.high { border-left-color: #e74c3c; }
 
     .result-card h3 {
       font-weight: 600;
@@ -98,43 +155,79 @@
       padding: 0;
     }
     .result-card li {
-      padding: 6px 0;
+      padding: 8px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .result-card li:last-child {
+      border-bottom: none;
     }
 
     .result-icon {
-      margin-right: 8px;
+      margin-right: 10px;
+      color: #27ae60;
     }
 
     .suggestions {
-      margin-top: 15px;
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: 12px;
+      border: 1px solid #e0f5e0;
       font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .comparison {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-top: 10px;
+    }
+
+    #chartContainer {
+      margin-top: 20px;
+      background: var(--card-bg);
       padding: 15px;
-      background: #f9fafb;
-      border-radius: 10px;
-      border: 1px solid #eee;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
     @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      color: var(--text-dark);
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="index.html">🌿 Carbon Tracker</a>
-    <button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#navbarNav">
-      <span class="navbar-toggler-icon text-white"></span>
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="mishara.png" alt="Logo" class="me-2" style="height: 100px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
-        <li class="nav-item active"><a class="nav-link" href="calculator.html">Calculator</a></li>
-        <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-        <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">Calculator</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Leaderboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Offset</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Tips</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Scan</a></li>
+        <li class="nav-item">
+          <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
       </ul>
     </div>
   </div>
@@ -145,104 +238,201 @@
   <!-- Calculator Form -->
   <div class="form-card">
     <h2>Carbon Footprint Calculator</h2>
+    <p class="text-muted">Enter your monthly habits to estimate your CO₂ emissions.</p>
     <form id="calculatorForm">
-      <div class="form-group">
-        <label for="travel">🚗 Travel (km/month):</label>
-        <input type="number" class="form-control" id="travel" required min="0">
+      <div class="form-group mb-3">
+        <label for="travel">🚗 Distance Traveled (km/per-month):</label>
+        <input type="number" class="form-control" id="travel" placeholder="e.g., 500" required min="0">
       </div>
-      <div class="form-group">
-        <label for="food">🥦 Food Consumption (kg/month):</label>
-        <input type="number" class="form-control" id="food" required min="0">
+      <div class="form-group mb-3">
+        <label for="food">🥦 Food Consumption (kg/per-month):</label>
+        <select class="form-control" id="foodType" required>
+          <option value="meat">Meat-heavy Diet</option>
+          <option value="mixed">Mixed Diet</option>
+          <option value="veg">Vegetarian</option>
+          <option value="vegan">Vegan</option>
+        </select>
+        <input type="number" class="form-control mt-2" id="food" placeholder="e.g., 30" required min="0">
       </div>
-      <div class="form-group">
-        <label for="shopping">🛍️ Shopping (items/month):</label>
-        <input type="number" class="form-control" id="shopping" required min="0">
+      <div class="form-group mb-3">
+        <label for="shopping">🛍️ New Items Purchased (per month):</label>
+        <input type="number" class="form-control" id="shopping" placeholder="e.g., 5" required min="0">
       </div>
-      <div class="form-group">
-        <label for="electricity">💡 Electricity Usage (kWh/month):</label>
-        <input type="number" class="form-control" id="electricity" required min="0">
+      <div class="form-group mb-3">
+        <label for="electricity">💡 Electricity (kWh/month):</label>
+        <input type="number" class="form-control" id="electricity" placeholder="e.g., 200" required min="0">
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Calculate Footprint</button>
+      <div class="form-group mb-3">
+        <label for="flightHours">✈️ Flight Hours (per year):</label>
+        <input type="number" class="form-control" id="flightHours" placeholder="e.g., 10" min="0" value="0">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block w-100">Calculate My Footprint</button>
     </form>
   </div>
 
-  <!-- Result -->
-  <div class="result-card" id="result"></div>
+  <!-- Result Card -->
+  <div class="result-card" id="result">
+    <h3><i class="fas fa-leaf"></i> Your Monthly Footprint</h3>
+    <p id="totalOutput"></p>
+    <p id="statusOutput"></p>
+    <div id="comparison" class="comparison"></div>
+
+    <div class="mt-4">
+      <h5>📊 Emission Breakdown</h5>
+      <canvas id="emissionChart" height="200"></canvas>
+    </div>
+
+    <div class="suggestions" id="suggestionBox"></div>
+  </div>
 </div>
 
-<!-- Script -->
+<!-- Footer -->
+<div class="footer">
+  <p>💡 Tip: The average person emits ~5,000 kg CO₂/year. Help reduce it!</p>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  document.getElementById('calculatorForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+  // Theme Toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const body = document.body;
 
-    const travel = parseFloat(document.getElementById('travel').value);
-    const food = parseFloat(document.getElementById('food').value);
-    const shopping = parseFloat(document.getElementById('shopping').value);
-    const electricity = parseFloat(document.getElementById('electricity').value);
+  themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark');
+    if (body.getAttribute('data-theme') === 'dark') {
+      body.removeAttribute('data-theme');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+      body.setAttribute('data-theme', 'dark');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+  });
 
-    if ([travel, food, shopping, electricity].some(v => isNaN(v) || v < 0)) {
-      alert('Please enter valid positive numbers.');
+  // Emission Factors (kg CO₂ per unit)
+  const factors = {
+    travel: 0.21,        // gasoline car (kg/km)
+    food: {
+      meat: 10.0,
+      mixed: 6.0,
+      veg: 3.5,
+      vegan: 2.5
+    },
+    shopping: 2.0,       // per item
+    electricity: 0.92,   // grid average (kg/kWh)
+    flight: 0.25         // per hour (long-haul)
+  };
+
+  let chart = null; // Chart instance
+
+  document.getElementById('calculatorForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Get values
+    const travel = parseFloat(document.getElementById('travel').value) || 0;
+    const foodType = document.getElementById('foodType').value;
+    const food = parseFloat(document.getElementById('food').value) || 0;
+    const shopping = parseFloat(document.getElementById('shopping').value) || 0;
+    const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+    const flightHours = parseFloat(document.getElementById('flightHours').value) || 0;
+
+    // Validate
+    if ([travel, food, shopping, electricity, flightHours].some(v => v < 0)) {
+      alert('All values must be non-negative.');
       return;
     }
 
-    const travelCO2 = travel * 0.21;
-    const foodCO2 = food * 5.0;
-    const shoppingCO2 = shopping * 2.0;
-    const electricityCO2 = electricity * 0.92;
+    // Calculate emissions
+    const travelCO2 = travel * factors.travel;
+    const foodCO2 = food * factors.food[foodType];
+    const shoppingCO2 = shopping * factors.shopping;
+    const electricityCO2 = electricity * factors.electricity;
+    const flightCO2 = flightHours * factors.flight * 12; // yearly → monthly avg
+    const totalCO2 = travelCO2 + foodCO2 + shoppingCO2 + electricityCO2 + flightCO2;
 
-    const totalCO2 = travelCO2 + foodCO2 + shoppingCO2 + electricityCO2;
-
-    // Determine status
-    let status = '';
-    let colorClass = '';
+    // Status
+    let status, colorClass;
     if (totalCO2 < 200) {
-      status = "Low (Great job! 🌱)";
+      status = "Low 🌱 Excellent!";
       colorClass = "low";
     } else if (totalCO2 < 500) {
-      status = "Moderate (Needs improvement ⚖️)";
+      status = "Moderate ⚖️ Room to improve";
       colorClass = "moderate";
     } else {
-      status = "High (Critical ⚠️)";
+      status = "High ⚠️ Take action!";
       colorClass = "high";
     }
 
-    // Find main contributor
-    const categories = {
-      "Travel": travelCO2,
-      "Food": foodCO2,
-      "Shopping": shoppingCO2,
-      "Electricity": electricityCO2
-    };
+    // Main contributor
+    const categories = { Travel: travelCO2, Food: foodCO2, Shopping: shoppingCO2, Electricity: electricityCO2, Flight: flightCO2 };
     const mainContributor = Object.keys(categories).reduce((a, b) => categories[a] > categories[b] ? a : b);
 
     const suggestions = {
-      "Travel": "Consider carpooling, cycling, or using public transport.",
-      "Food": "Reduce red meat and processed foods, eat more local and plant-based meals.",
-      "Shopping": "Buy fewer but higher-quality items, and choose sustainable brands.",
-      "Electricity": "Turn off unused appliances and consider switching to renewable energy."
+      Travel: "Switch to public transport, biking, or EVs.",
+      Food: "Reduce meat intake and choose seasonal, local produce.",
+      Shopping: "Buy less, repair, and support sustainable brands.",
+      Electricity: "Use energy-efficient appliances and solar power.",
+      Flight: "Limit air travel or offset your flights."
     };
 
+    // Update result
     const resultBox = document.getElementById('result');
     resultBox.style.display = 'block';
-    resultBox.className = "result-card " + colorClass;
-    resultBox.innerHTML = `
-      <h3><i class="fas fa-leaf"></i> Your Footprint: <strong>${totalCO2.toFixed(2)} kg CO₂/month</strong></h3>
-      <p>Status: <strong>${status}</strong></p>
-      <p class="mt-3 mb-1"><strong>Breakdown:</strong></p>
-      <ul>
-        <li><i class="fas fa-car result-icon"></i>Travel: ${travelCO2.toFixed(2)} kg CO₂</li>
-        <li><i class="fas fa-utensils result-icon"></i>Food: ${foodCO2.toFixed(2)} kg CO₂</li>
-        <li><i class="fas fa-shopping-bag result-icon"></i>Shopping: ${shoppingCO2.toFixed(2)} kg CO₂</li>
-        <li><i class="fas fa-bolt result-icon"></i>Electricity: ${electricityCO2.toFixed(2)} kg CO₂</li>
-      </ul>
-      <div class="suggestions">
-        <strong>Tip:</strong> Your highest contributor is <b>${mainContributor}</b>. ${suggestions[mainContributor]}
-      </div>
-    `;
+    resultBox.className = 'result-card ' + colorClass;
+
+    document.getElementById('totalOutput').innerHTML = `<strong>${totalCO2.toFixed(1)} kg CO₂/month</strong>`;
+    document.getElementById('statusOutput').innerHTML = `Status: <strong>${status}</strong>`;
+
+    const treesNeeded = (totalCO2 * 12 / 22) / 10; // 22kg/tree/year → trees needed
+    document.getElementById('comparison').innerHTML = 
+      `That’s equivalent to <strong>${treesNeeded.toFixed(1)} trees</strong> needed to offset yearly.`;
+
+    document.getElementById('suggestionBox').innerHTML = 
+      `<strong>💡 Action Item:</strong> Focus on <b>${mainContributor}</b>. ${suggestions[mainContributor]}`;
+
+    // Save to localStorage
+    localStorage.setItem('lastResult', JSON.stringify({ totalCO2, date: new Date().toLocaleDateString() }));
+
+    // Update Chart
+    updateChart(categories);
   });
+
+  function updateChart(data) {
+    const ctx = document.getElementById('emissionChart').getContext('2d');
+    const labels = Object.keys(data);
+    const values = Object.values(data);
+
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'CO₂ (kg/month)',
+          data: values,
+          backgroundColor: [
+            '#27ae60', '#3498db', '#f1c40f', '#e74c3c', '#9b59b6'
+          ],
+          borderColor: '#fff',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.y.toFixed(1)} kg` } }
+        },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 50 } }
+        }
+      }
+    });
+  }
+
+
 </script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

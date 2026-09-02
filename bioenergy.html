@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bioenergy & Waste-to-Power</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome (CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Chart.js (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #f8fdfa;
+      --bg-secondary: #e6f7ec;
+      --text-dark: #2c3e50;
+      --card-bg: #ffffff;
+      --btn-primary: #27ae60;
+      --shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+      color: var(--text-dark);
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 0.5rem 0;
+      height: 60px;
+    }
+    .navbar-brand {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #27ae60 !important;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-link {
+      color: #2c3e50 !important;
+      font-size: 0.9rem;
+      margin: 0 8px;
+    }
+
+    .container {
+      margin-top: 80px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 20px;
+    }
+
+    .btn-primary {
+      background-color: #27ae60;
+      border: none;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+
+    .impact-box {
+      padding: 10px;
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid #27ae60;
+    }
+
+    .chart-container {
+      margin-top: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+
+    /* Custom Info Button */
+    .btn-outline-info {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+      border-radius: 50px;
+    }
+    .btn-outline-info:hover {
+      background-color: #3498db !important;
+      color: white !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img height="55px" src="mishara.png" alt="Logo"> </a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <!-- Form -->
+    <div class="col-lg-6">
+      <div class="card">
+        <h3>🗑️ Log Your Waste</h3>
+        <form id="wasteForm">
+          <!-- Food Waste -->
+          <div class="mb-3">
+            <label class="d-flex justify-content-between align-items-center">
+              🍽️ Food Waste (kg)
+              <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#foodModal">
+                <i class="fas fa-info-circle"></i>
+              </button>
+            </label>
+            <input type="number" class="form-control" id="foodWaste" placeholder="e.g., 2.5" min="0" step="0.1">
+          </div>
+
+          <!-- Plastic Waste -->
+          <div class="mb-3">
+            <label class="d-flex justify-content-between align-items-center">
+              📦 Plastic Waste (kg)
+              <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#plasticModal">
+                <i class="fas fa-info-circle"></i>
+              </button>
+            </label>
+            <input type="number" class="form-control" id="plasticWaste" placeholder="e.g., 1.0" min="0" step="0.1">
+          </div>
+
+          <!-- Organic Waste -->
+          <div class="mb-3">
+            <label class="d-flex justify-content-between align-items-center">
+              📄 Organic Waste (kg)
+              <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#organicModal">
+                <i class="fas fa-info-circle"></i>
+              </button>
+            </label>
+            <input type="number" class="form-control" id="paperWaste" placeholder="e.g., 0.8" min="0" step="0.1">
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Calculate Impact</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="col-lg-6">
+      <div class="card" id="resultCard" style="display: none;">
+        <h3>⚡ Your Green Impact</h3>
+        <div class="impact-box">
+          <i class="fas fa-fire-alt" style="color:#f39c12;"></i>
+          <strong id="biogasOutput">0</strong> m³ Biogas
+        </div>
+        <div class="impact-box">
+          <i class="fas fa-gas-pump" style="color:#e74c3c;"></i>
+          Replaces <strong id="lpgSaved">0</strong> kg LPG
+        </div>
+        <div class="impact-box">
+          <i class="fas fa-leaf" style="color:#f1c40f;"></i>
+          <strong id="compostOutput">0</strong> kg Fertilizer
+        </div>
+        <div class="impact-box">
+          <i class="fas fa-tree" style="color:#27ae60;"></i>
+          <strong id="co2Saved">0</strong> kg CO₂ Saved
+        </div>
+
+        <!-- Insight Summary -->
+        <div id="insightSummary" class="mt-3 p-3 bg-light border rounded" style="font-size: 0.95rem; line-height: 1.5;">
+          <!-- Dynamic insight text will go here -->
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-container">
+          <canvas id="wasteChart" height="100"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals for Waste Info -->
+<!-- Food Waste Modal -->
+<div class="modal fade" id="foodModal" tabindex="-1" aria-labelledby="foodModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="foodModalLabel">🍽️ Food Waste</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>What counts as food waste?</strong></p>
+        <ul>
+          <li>Leftover cooked meals</li>
+          <li>Fruit and vegetable peels</li>
+          <li>Expired food</li>
+          <li>Coffee grounds, tea bags</li>
+          <li>Bread, grains, dairy (if not recyclable)</li>
+        </ul>
+        <p>This waste is ideal for biogas production via anaerobic digestion.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Plastic Waste Modal -->
+<div class="modal fade" id="plasticModal" tabindex="-1" aria-labelledby="plasticModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="plasticModalLabel">📦 Plastic Waste</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Plastic waste includes:</strong></p>
+        <ul>
+          <li>Plastic bags, bottles, containers</li>
+          <li>Food packaging</li>
+          <li>Non-recyclable mixed plastics</li>
+        </ul>
+        <p>Note: Not suitable for biogas. Best recycled or converted via waste-to-energy (thermal) processes.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Organic Waste Modal -->
+<div class="modal fade" id="organicModal" tabindex="-1" aria-labelledby="organicModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="organicModalLabel">📄 Organic Waste</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Organic waste includes:</strong></p>
+        <ul>
+          <li>Newspapers, cardboard, paper</li>
+          <li>Garden trimmings, leaves</li>
+          <li>Wood chips, sawdust</li>
+          <li>Untreated natural fibers</li>
+        </ul>
+        <p>Great for composting and biogas. Avoid glossy or plastic-coated paper.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>🌱 Waste to energy — small actions, big impact.</p>
+</footer>
+
+<!-- Scripts -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById('wasteForm');
+    let wasteChart = null;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const food = parseFloat(document.getElementById('foodWaste').value) || 0;
+      const plastic = parseFloat(document.getElementById('plasticWaste').value) || 0;
+      const paper = parseFloat(document.getElementById('paperWaste').value) || 0;
+
+      // Calculations
+      const biogas = (food * 0.5) + (paper * 0.3);  // m³
+      const lpg = biogas * 0.7;                    // kg LPG equivalent
+      const co2 = lpg * 1.2;                       // kg CO₂ saved
+      const compost = (food + paper) * 0.4;        // kg fertilizer
+
+      // Update results
+      document.getElementById('biogasOutput').textContent = biogas.toFixed(2);
+      document.getElementById('lpgSaved').textContent = lpg.toFixed(2);
+      document.getElementById('co2Saved').textContent = co2.toFixed(2);
+      document.getElementById('compostOutput').textContent = compost.toFixed(2);
+
+      // Show result
+      document.getElementById('resultCard').style.display = 'block';
+
+      // Generate Insight Summary
+      const totalWaste = food + plastic + paper;
+      const stoveDays = Math.round(lpg * 2); // Approx: 0.5kg LPG/day for cooking
+      const treeEquivalent = (co2 / 10).toFixed(1); // 1 tree ≈ 10kg CO₂/year
+      const carKmSaved = (co2 / 2.3).toFixed(1); // Avg petrol car: ~2.3kg CO₂/km
+
+      const insightText = `
+        <strong>🌍 Your Waste Transformation:</strong><br>
+        From <strong>${totalWaste.toFixed(1)} kg</strong> of waste, you've generated enough biogas to replace 
+        <strong>${lpg.toFixed(1)} kg of LPG</strong> — that's like powering a stove for 
+        <strong>${stoveDays} days</strong>! 
+        You've also produced <strong>${compost.toFixed(1)} kg of organic fertilizer</strong>, 
+        perfect for nourishing gardens or farms.
+        <br><br>
+        <strong>🌱 Climate Impact:</strong><br>
+        By converting waste instead of landfilling, you’ve avoided 
+        <strong>${co2.toFixed(1)} kg of CO₂ emissions</strong> — equivalent to planting 
+        <strong>${treeEquivalent}</strong> trees or driving 
+        <strong>${carKmSaved} km less</strong> in a petrol car.
+        <br><br>
+        <em>If you maintain this waste rate annually, you’d save over 
+        ${co2.toFixed(0)} kg of CO₂ per year — that’s real climate action!</em>
+      `;
+      document.getElementById('insightSummary').innerHTML = insightText;
+
+      // Update chart
+      if (wasteChart) wasteChart.destroy();
+      const ctx = document.getElementById('wasteChart').getContext('2d');
+      wasteChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Food', 'Plastic', 'Paper'],
+          datasets: [{
+            data: [food, plastic, paper],
+            backgroundColor: ['#27ae60', '#3498db', '#f1c40f']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    });
+  });
+</script>
+
+<!-- Bootstrap JS Bundle (Includes Popper and Modal Support) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

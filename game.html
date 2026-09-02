@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eco Badge Adventure</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Confetti JS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <style>
+    .progress-fill {
+      transition: width 0.5s ease-out;
+    }
+    .grayscale {
+      filter: grayscale(100%);
+    }
+    .popup {
+      animation: fadeIn 0.5s, scaleIn 0.3s 0.2s both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.8); }
+      to { transform: scale(1); }
+    }
+    .navbar {
+      background:rgb(220, 255, 237);
+      padding: 0;
+      opacity: 0.95;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #27ae60 !important;
+    }
+    .nav-link {
+      color: black !important;
+      margin: 0 3px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .nav-link:hover {
+      color: #27ae60 !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-indigo-100 p-6 font-sans">
+     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="mishara.png" alt="Logo" >
+      </a>
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="calculator.html">Calculator</a></li>
+          <li class="nav-item"><a class="nav-link" href="game.html">Achivements</a></li>
+          <li class="nav-item"><a class="nav-link" href="donation.html">Donation</a></li>
+          <li class="nav-item"><a class="nav-link" href="barcode.php">Scan Barcode</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+        </ul>
+      </div>
+    </div> -->
+  </nav>
+<br>
+  <!-- Celebration Popup -->
+  <div id="achievement-popup" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div class="popup bg-white rounded-2xl shadow-2xl p-8 max-w-sm mx-4 text-center border-4 border-yellow-400">
+      <div class="text-6xl mb-4" id="popup-icon">🏆</div>
+      <h3 class="text-2xl font-bold text-gray-800 mb-2" id="popup-title">Yay! You Did It!</h3>
+      <p class="text-gray-600 mb-4" id="popup-message">You've earned a new badge!</p>
+      <button id="close-popup" class="px-6 py-2 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition">
+        Keep Going!
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay for popup -->
+  <div id="popup-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+  <div class="max-w-6xl mx-auto">
+    <!-- Header with User Stats -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-800 mb-2">Eco Badge Adventure</h1>
+          <p class="text-gray-600">Start your journey toward a sustainable future!</p>
+        </div>
+        <div class="text-right">
+          <p class="text-sm text-gray-600">Player</p>
+          <p class="text-xl font-bold text-gray-800">EcoWarrior</p>
+        </div>
+      </div>
+
+      <!-- Level Progress -->
+      <div class="bg-gradient-to-r from-green-100 to-blue-100 rounded-xl p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center space-x-4">
+            <div id="level-badge" class="w-16 h-16 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
+              0
+            </div>
+            <div>
+              <h2 id="level-text" class="text-2xl font-bold text-gray-800">Level 0</h2>
+              <p id="current-xp" class="text-gray-600">0 / 200 XP</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p id="total-xp" class="text-3xl font-bold text-gray-800">0</p>
+            <p class="text-sm text-gray-600">Total XP</p>
+          </div>
+        </div>
+
+        <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+          <div id="level-progress-bar" class="bg-gradient-to-r from-green-500 to-blue-500 h-4 rounded-full progress-fill" style="width: 0%"></div>
+        </div>
+        <p id="xp-to-next" class="text-sm text-gray-600 text-center">200 XP to Level 1</p>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+      <!-- Challenge/Badge System -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+          <!-- View Toggle -->
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex space-x-4">
+              <button id="challenges-tab" class="px-4 py-2 rounded-lg font-medium transition-colors flex items-center bg-blue-500 text-white">
+                <svg data-lucide="target" class="w-4 h-4 mr-2"></svg>
+                Challenges
+              </button>
+              <button id="badges-tab" class="px-4 py-2 rounded-lg font-medium transition-colors flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+                <svg data-lucide="award" class="w-4 h-4 mr-2"></svg>
+                Badges
+              </button>
+            </div>
+
+            <div class="flex space-x-2">
+              <button data-type="daily" class="px-4 py-2 rounded-lg font-medium transition-colors bg-green-500 text-white">Daily</button>
+              <button data-type="weekly" class="px-4 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200">Weekly</button>
+              <button data-type="monthly" class="px-4 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200">Monthly</button>
+            </div>
+          </div>
+
+          <!-- Challenges View -->
+          <div id="challenges-view">
+            <div id="challenge-type-info" class="p-4 rounded-lg mb-6 bg-blue-100 border-blue-300 text-blue-700">
+              <div class="flex items-center justify-between">
+                <span class="font-medium">Daily Challenges</span>
+                <span class="text-sm font-medium">Low Value • 4 Available</span>
+              </div>
+            </div>
+
+            <div id="challenges-grid" class="grid md:grid-cols-1 gap-6">
+              <!-- Challenges injected via JS -->
+            </div>
+          </div>
+
+          <!-- Badges View -->
+          <div id="badges-view" class="hidden">
+            <div id="badge-type-info" class="p-4 rounded-lg mb-6 bg-blue-100 border-blue-300 text-blue-700">
+              <div class="flex items-center justify-between">
+                <span class="font-medium">Daily Badges</span>
+                <span class="text-sm font-medium">Low Value • 4 Available</span>
+              </div>
+            </div>
+
+            <div id="badges-grid" class="grid md:grid-cols-2 gap-4">
+              <!-- Badges injected via JS -->
+            </div>
+          </div>
+
+          <!-- Progress Summary -->
+          <div class="mt-6 grid grid-cols-3 gap-4">
+            <div class="text-center p-4 bg-gray-50 rounded-lg">
+              <h4 class="font-semibold text-gray-800 capitalize mb-2">daily</h4>
+              <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                <div id="daily-progress-bar" class="h-2 rounded-full bg-blue-500 progress-fill" style="width: 0%"></div>
+              </div>
+              <p id="daily-progress-text" class="text-sm text-gray-600">0/4 unlocked</p>
+            </div>
+            <div class="text-center p-4 bg-gray-50 rounded-lg">
+              <h4 class="font-semibold text-gray-800 capitalize mb-2">weekly</h4>
+              <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                <div id="weekly-progress-bar" class="h-2 rounded-full bg-purple-500 progress-fill" style="width: 0%"></div>
+              </div>
+              <p id="weekly-progress-text" class="text-sm text-gray-600">0/4 unlocked</p>
+            </div>
+            <div class="text-center p-4 bg-gray-50 rounded-lg">
+              <h4 class="font-semibold text-gray-800 capitalize mb-2">monthly</h4>
+              <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                <div id="monthly-progress-bar" class="h-2 rounded-full bg-yellow-500 progress-fill" style="width: 0%"></div>
+              </div>
+              <p id="monthly-progress-text" class="text-sm text-gray-600">0/4 unlocked</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+          <svg data-lucide="users" class="w-6 h-6 mr-2 text-blue-500"></svg>
+          Global Leaderboard
+        </h2>
+
+        <div id="leaderboard" class="space-y-3">
+          <!-- Players will be added by JS -->
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="mt-6 p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg">
+          <h3 class="font-semibold text-gray-800 mb-3">Your Rank</h3>
+          <div class="grid grid-cols-2 gap-4 text-center">
+            <div>
+              <p id="user-rank" class="text-2xl font-bold text-blue-600">—</p>
+              <p class="text-sm text-gray-600">Global Rank</p>
+            </div>
+            <div>
+              <p id="badge-count" class="text-2xl font-bold text-purple-600">0</p>
+              <p class="text-sm text-gray-600">Badges Earned</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+
+    // User starts at Level 0
+    const user = {
+      name: 'EcoWarrior',
+      level: 0,
+      totalXP: 0,
+      unlockedBadges: [],
+      activeChallenges: [],
+      completedToday: [],
+      weeklyProgress: { transport_master: 0, energy_saver: 0.15 },
+      monthlyProgress: { carbon_crusher: 0.23, community_leader: 2 }
+    };
+
+    // Challenges and Badges (same as before)
+    const challenges = {
+      daily: [
+        { id: 'daily_commuter', name: 'Green Commuter', description: 'Use eco-friendly transport today', icon: '🚲', xp: 10, badgeId: 'daily_commuter', requirement: 'Use bike, walk, or transit', actions: ['Bike to work', 'Walk to store'], timeLimit: '24h', difficulty: 'Easy' },
+        { id: 'energy_conscious', name: 'Power Saver', description: 'Reduce energy today', icon: '💡', xp: 15, badgeId: 'energy_conscious', requirement: 'Turn off unused devices', actions: ['Unplug chargers', 'Use LED lights'], timeLimit: '24h', difficulty: 'Medium' },
+        { id: 'green_meal', name: 'Plant Power', description: 'Eat a plant-based meal', icon: '🥗', xp: 12, badgeId: 'green_meal', requirement: 'Have 1+ vegan meals', actions: ['Try veggie burger', 'Make lentil soup'], timeLimit: '24h', difficulty: 'Easy' },
+        { id: 'waste_warrior_daily', name: 'Zero Waste Hero', description: 'No single-use today', icon: '♻️', xp: 18, badgeId: 'waste_warrior_daily', requirement: 'Avoid plastic disposables', actions: ['Use reusable cup', 'Bring cloth bag'], timeLimit: '24h', difficulty: 'Hard' }
+      ],
+      weekly: [
+        { id: 'transport_master', name: 'Transport Master', description: 'Eco transport for 7 days', icon: '🚌', xp: 150, badgeId: 'transport_master', requirement: '7-day streak', actions: ['Daily commute green'], timeLimit: '7 days', difficulty: 'Medium', progressType: 'streak', targetValue: 7 },
+        { id: 'energy_saver', name: 'Energy Saver', description: 'Reduce energy by 30%', icon: '⚡', xp: 120, badgeId: 'energy_saver', requirement: 'Cut usage by 30%', actions: ['Smart thermostat'], timeLimit: '7 days', difficulty: 'Hard', progressType: 'percentage', targetValue: 30 },
+        { id: 'first_week', name: 'First Week', description: 'Complete 7 daily challenges', icon: '📅', xp: 100, badgeId: 'first_week', requirement: '7 daily wins', actions: ['Stay consistent'], timeLimit: '7 days', difficulty: 'Medium', progressType: 'streak', targetValue: 7 }
+      ],
+      monthly: [
+        { id: 'eco_starter', name: 'Eco Starter', description: '30 days of green living', icon: '🌍', xp: 300, badgeId: 'eco_starter', requirement: '30-day streak', actions: ['Daily engagement'], timeLimit: '30 days', difficulty: 'Medium', progressType: 'streak', targetValue: 30 },
+        { id: 'carbon_crusher', name: 'Carbon Crusher', description: 'Cut carbon by 50%', icon: '💚', xp: 500, badgeId: 'carbon_crusher', requirement: 'Reduce by 50%', actions: ['Track emissions'], timeLimit: '30 days', difficulty: 'Expert', progressType: 'percentage', targetValue: 50 }
+      ]
+    };
+
+    const badges = {
+      daily: [
+        { id: 'daily_commuter', name: 'Daily Commuter', description: 'Use green transport', icon: '🚲', xp: 10, unlocked: false, type: 'daily' },
+        { id: 'energy_conscious', name: 'Energy Conscious', description: 'Save power today', icon: '💡', xp: 15, unlocked: false, type: 'daily' },
+        { id: 'green_meal', name: 'Green Meal', description: 'Plant-based win', icon: '🥗', xp: 12, unlocked: false, type: 'daily' },
+        { id: 'waste_warrior_daily', name: 'Waste Warrior', description: 'Zero waste day', icon: '♻️', xp: 18, unlocked: false, type: 'daily' }
+      ],
+      weekly: [
+        { id: 'first_week', name: 'First Week', description: '7 challenges done', icon: '📅', xp: 100, unlocked: false, type: 'weekly', requirement: '7 wins' },
+        { id: 'transport_master', name: 'Transport Master', description: '7-day green commute', icon: '🚌', xp: 150, unlocked: false, type: 'weekly', requirement: '7-day streak' },
+        { id: 'energy_saver', name: 'Energy Saver', description: '30% less energy', icon: '⚡', xp: 120, unlocked: false, type: 'weekly', requirement: '30% cut' }
+      ],
+      monthly: [
+        { id: 'eco_starter', name: 'Eco Starter', description: '30 days active', icon: '🌍', xp: 300, unlocked: false, type: 'monthly', requirement: '30-day streak' },
+        { id: 'carbon_crusher', name: 'Carbon Crusher', description: '50% carbon cut', icon: '💚', xp: 500, unlocked: false, type: 'monthly', requirement: '50% reduction' }
+      ]
+    };
+
+    // Leaderboard
+    const leaderboard = [
+      { name: 'GreenMaster', level: 12, totalXP: 3240, badges: 28 },
+      { name: 'EcoChampion', level: 10, totalXP: 2890, badges: 24 },
+      { name: 'SustainableHero', level: 8, totalXP: 2156, badges: 19 },
+      { name: 'NatureLover', level: 2, totalXP: 380, badges: 4 },
+      { name: 'ClimateHero', level: 1, totalXP: 180, badges: 2 }
+    ];
+
+    // Add current user dynamically
+    function updateLeaderboard() {
+      const allPlayers = [...leaderboard, {
+        name: user.name,
+        level: user.level,
+        totalXP: user.totalXP,
+        badges: user.unlockedBadges.length
+      }].sort((a, b) => b.totalXP - a.totalXP);
+
+      const lb = document.getElementById('leaderboard');
+      lb.innerHTML = '';
+      allPlayers.forEach((player, index) => {
+        const isUser = player.name === user.name;
+        const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1;
+        const medalColor = index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : index === 2 ? 'bg-amber-600' : 'bg-blue-500';
+
+        const item = document.createElement('div');
+        item.className = `p-4 rounded-lg border transition-all ${
+          isUser ? 'bg-green-50 border-green-300 shadow-md' : 'bg-gray-50 border-gray-200 hover:shadow-lg'
+        }`;
+
+        item.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm ${medalColor}">
+                ${rankEmoji}
+              </div>
+              <div>
+                <p class="font-semibold ${isUser ? 'text-green-800' : 'text-gray-800'}">${player.name}</p>
+                <p class="text-sm text-gray-600">Level ${player.level}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="font-bold text-gray-800">${player.totalXP}</p>
+              <p class="text-xs text-gray-600">${player.badges} badges</p>
+            </div>
+          </div>
+        `;
+        lb.appendChild(item);
+      });
+
+      // Update user rank
+      const userRank = allPlayers.findIndex(p => p.name === user.name) + 1;
+      document.getElementById('user-rank').textContent = `#${userRank}`;
+      document.getElementById('badge-count').textContent = user.unlockedBadges.length;
+    }
+
+    // XP & Level Logic
+    function getXPForLevel(level) {
+      return level * 200 + (level - 1) * 50;
+    }
+
+    function getCurrentLevelXP() {
+      let total = 0;
+      for (let i = 1; i < user.level; i++) total += getXPForLevel(i);
+      return user.totalXP - total;
+    }
+
+    function getXPToNextLevel() {
+      return getXPForLevel(user.level) - getCurrentLevelXP();
+    }
+
+    function getLevelProgress() {
+      const needed = getXPForLevel(user.level);
+      return needed === 0 ? 0 : (getCurrentLevelXP() / needed) * 100;
+    }
+
+    function calculateLevel(totalXP) {
+      let level = 0, used = 0;
+      while (used + getXPForLevel(level) <= totalXP) {
+        used += getXPForLevel(level);
+        level++;
+      }
+      return level;
+    }
+
+    // Show popup
+    function showPopup(title, message, icon = '🎉') {
+      const popup = document.getElementById('achievement-popup');
+      const overlay = document.getElementById('popup-overlay');
+      document.getElementById('popup-title').textContent = title;
+      document.getElementById('popup-message').textContent = message;
+      document.getElementById('popup-icon').textContent = icon;
+
+      popup.classList.remove('hidden');
+      overlay.classList.remove('hidden');
+
+      // Confetti!
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    // Close popup
+    document.getElementById('close-popup').addEventListener('click', () => {
+      document.getElementById('achievement-popup').classList.add('hidden');
+      document.getElementById('popup-overlay').classList.add('hidden');
+    });
+
+    // State
+    let selectedView = 'challenges';
+    let selectedBadgeType = 'daily';
+
+    // Render Functions
+    function renderChallenges() {
+      const container = document.getElementById('challenges-grid');
+      container.innerHTML = '';
+
+      challenges[selectedBadgeType].forEach(challenge => {
+        const isActive = user.activeChallenges.includes(challenge.id);
+        const isCompleted = user.completedToday.includes(challenge.id);
+        const progress = Math.min(100, getProgressPercentage(challenge.id, selectedBadgeType));
+
+        const card = document.createElement('div');
+        card.innerHTML = `
+          <div class="p-6 rounded-xl border-2 ${
+            isCompleted ? 'border-green-400 bg-green-50 shadow-lg' :
+            isActive ? 'border-blue-400 bg-blue-50 shadow-md' :
+            'border-gray-200 bg-white hover:shadow-lg hover:border-gray-300'
+          }">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-start space-x-4">
+                <div class="text-5xl">${challenge.icon}</div>
+                <div class="flex-1">
+                  <div class="flex items-center space-x-2 mb-2">
+                    <h3 class="font-bold text-xl text-gray-800">${challenge.name}</h3>
+                    <span class="px-2 py-1 text-xs font-medium rounded-full ${
+                      challenge.difficulty === 'Easy' ? 'bg-green-100 text-green-700' :
+                      challenge.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-orange-100 text-orange-700'
+                    }">${challenge.difficulty}</span>
+                  </div>
+                  <p class="text-gray-600 mb-3">${challenge.description}</p>
+                  <p class="text-sm font-medium text-blue-600 mb-3">Requirement: ${challenge.requirement}</p>
+                  <div class="flex items-center space-x-4 text-sm text-gray-600 mb-4">
+                    <span><svg data-lucide="calendar" class="w-4 h-4 inline mr-1"></svg> ${challenge.timeLimit}</span>
+                    <span class="text-green-600 font-medium"><svg data-lucide="zap" class="w-4 h-4 inline mr-1"></svg> +${challenge.xp} XP</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col items-end">
+                ${isCompleted ? 
+                  `<span class="px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-full">✓ Done</span>` :
+                  isActive ?
+                  `<button data-action="complete" data-id="${challenge.id}" data-type="${selectedBadgeType}"
+                          class="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-full hover:bg-blue-600">
+                     Complete
+                   </button>` :
+                  `<button data-action="start" data-id="${challenge.id}" data-type="${selectedBadgeType}"
+                          class="px-4 py-2 bg-gray-500 text-white text-sm font-medium rounded-full hover:bg-gray-600">
+                     Start
+                   </button>`
+                }
+              </div>
+            </div>
+            ${(selectedBadgeType !== 'daily' && isActive) ? `
+              <div class="mt-4">
+                <div class="flex justify-between text-sm mb-1">
+                  <span>Progress</span>
+                  <span>${progress.toFixed(0)}%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="h-2 rounded-full bg-purple-500" style="width: ${progress}%"></div>
+                </div>
+              </div>
+            ` : ''}
+            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+              <p class="text-sm font-medium text-gray-700 mb-1">Do:</p>
+              <ul class="text-sm text-gray-600 space-y-1">
+                ${challenge.actions.map(a => `<li class="flex items-center"><span class="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>${a}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    function renderBadges() {
+      const container = document.getElementById('badges-grid');
+      container.innerHTML = '';
+
+      badges[selectedBadgeType].forEach(badge => {
+        const card = document.createElement('div');
+        card.innerHTML = `
+          <div class="relative p-4 rounded-xl border-2 ${
+            badge.unlocked ? 'border-green-300 bg-green-50 shadow-md' : 'border-gray-200 bg-gray-50 opacity-75 hover:opacity-100'
+          }">
+            ${!badge.unlocked ? `<div class="absolute top-2 right-2"><svg data-lucide="lock" class="w-4 h-4 text-gray-400"></svg></div>` : ''}
+            <div class="flex items-start space-x-4">
+              <div class="text-4xl ${badge.unlocked ? '' : 'grayscale'}">${badge.icon}</div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg ${badge.unlocked ? 'text-gray-800' : 'text-gray-500'}">${badge.name}</h3>
+                <p class="text-sm mb-2 ${badge.unlocked ? 'text-gray-600' : 'text-gray-400'}">${badge.description}</p>
+                ${badge.requirement ? `<p class="text-xs text-gray-500">Req: ${badge.requirement}</p>` : ''}
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-sm font-medium ${badge.unlocked ? 'text-green-600' : 'text-gray-500'}">
+                    <svg data-lucide="zap" class="w-4 h-4 inline mr-1"></svg> +${badge.xp} XP
+                  </span>
+                  ${badge.unlocked ? 
+                    `<span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">✓ Unlocked</span>` :
+                    `<button data-action="unlock-badge" data-id="${badge.id}" data-type="${selectedBadgeType}"
+                            class="px-3 py-1 bg-blue-500 text-white text-xs rounded-full hover:bg-blue-600">
+                       Earn It
+                     </button>`
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    function updateUI() {
+      // Level display
+      document.getElementById('level-badge').className = user.level > 0 ? 
+        'w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white text-xl font-bold' :
+        'w-16 h-16 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full flex items-center justify-center text-white text-xl font-bold';
+      document.getElementById('level-badge').textContent = user.level;
+      document.getElementById('level-text').textContent = `Level ${user.level}`;
+      const needed = getXPForLevel(user.level) || 200;
+      document.getElementById('current-xp').textContent = `${getCurrentLevelXP()} / ${needed} XP`;
+      document.getElementById('total-xp').textContent = user.totalXP;
+      document.getElementById('level-progress-bar').style.width = `${getLevelProgress()}%`;
+      document.getElementById('xp-to-next').textContent = `${getXPToNextLevel()} XP to Level ${user.level + 1}`;
+
+      // Progress bars
+      Object.keys(badges).forEach(type => {
+        const unlocked = badges[type].filter(b => b.unlocked).length;
+        const total = badges[type].length;
+        document.getElementById(`${type}-progress-bar`).style.width = `${(unlocked / total) * 100}%`;
+        document.getElementById(`${type}-progress-text`).textContent = `${unlocked}/${total} unlocked`;
+      });
+
+      // Tabs and views
+      document.getElementById('challenges-tab').className = selectedView === 'challenges' ?
+        'px-4 py-2 rounded-lg font-medium transition-colors flex items-center bg-blue-500 text-white' :
+        'px-4 py-2 rounded-lg font-medium transition-colors flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200';
+
+      document.getElementById('badges-tab').className = selectedView === 'badges' ?
+        'px-4 py-2 rounded-lg font-medium transition-colors flex items-center bg-blue-500 text-white' :
+        'px-4 py-2 rounded-lg font-medium transition-colors flex items-center bg-gray-100 text-gray-600 hover:bg-gray-200';
+
+      document.getElementById('challenges-view').classList.toggle('hidden', selectedView !== 'challenges');
+      document.getElementById('badges-view').classList.toggle('hidden', selectedView !== 'badges');
+
+      // Type info
+      const info = selectedView === 'challenges' ? document.getElementById('challenge-type-info') : document.getElementById('badge-type-info');
+      const count = selectedView === 'challenges' 
+        ? challenges[selectedBadgeType].length 
+        : badges[selectedBadgeType].filter(b => !b.unlocked).length;
+      info.className = `p-4 rounded-lg mb-6 ${getBadgeTypeColor(selectedBadgeType)}`;
+      info.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="font-medium">${selectedBadgeType.charAt(0).toUpperCase() + selectedBadgeType.slice(1)} ${selectedView === 'challenges' ? 'Challenges' : 'Badges'}</span>
+          <span class="text-sm font-medium">${getBadgeValue(selectedBadgeType)} • ${count} Available</span>
+        </div>
+      `;
+
+      // Render
+      if (selectedView === 'challenges') renderChallenges();
+      else renderBadges();
+
+      // Update leaderboard
+      updateLeaderboard();
+    }
+
+    function getBadgeTypeColor(type) {
+      return type === 'daily' ? 'bg-blue-100 border-blue-300 text-blue-700' :
+             type === 'weekly' ? 'bg-purple-100 border-purple-300 text-purple-700' :
+             'bg-yellow-100 border-yellow-300 text-yellow-700';
+    }
+
+    function getBadgeValue(type) {
+      return type === 'daily' ? 'Low Value' : type === 'weekly' ? 'Medium Value' : 'High Value';
+    }
+
+    function getProgressPercentage(id, type) {
+      if (type === 'weekly' && id === 'transport_master') return (user.weeklyProgress.transport_master / 7) * 100;
+      if (type === 'monthly' && id === 'carbon_crusher') return (user.monthlyProgress.carbon_crusher / 0.5) * 100;
+      return 0;
+    }
+
+    // Event Listeners
+    document.getElementById('challenges-tab').addEventListener('click', () => {
+      selectedView = 'challenges';
+      updateUI();
+    });
+
+    document.getElementById('badges-tab').addEventListener('click', () => {
+      selectedView = 'badges';
+      updateUI();
+    });
+
+    document.querySelectorAll('button[data-type]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        selectedBadgeType = e.target.dataset.type;
+        document.querySelectorAll('button[data-type]').forEach(b => {
+          b.className = 'px-4 py-2 rounded-lg font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200';
+        });
+        e.target.className = 'px-4 py-2 rounded-lg font-medium transition-colors bg-green-500 text-white';
+        updateUI();
+      });
+    });
+
+    // Dynamic actions
+    document.addEventListener('click', e => {
+      const action = e.target.closest('[data-action]');
+      if (!action) return;
+
+      const id = action.dataset.id;
+      const type = action.dataset.type;
+
+      if (action.dataset.action === 'start') {
+        user.activeChallenges.push(id);
+        showPopup("Challenge Started!", `You're now working on "${challenges[type].find(c => c.id === id).name}"`, '🚀');
+        updateUI();
+      }
+
+      if (action.dataset.action === 'complete') {
+        const challenge = challenges[type].find(c => c.id === id);
+        user.totalXP += challenge.xp;
+        user.level = calculateLevel(user.totalXP);
+        user.completedToday.push(id);
+        user.activeChallenges = user.activeChallenges.filter(cid => cid !== id);
+
+        // Unlock badge if applicable
+        const badge = badges[type].find(b => b.id === challenge.badgeId);
+        if (badge && !badge.unlocked) {
+          badge.unlocked = true;
+          user.unlockedBadges.push(badge.id);
+          showPopup("🎉 Badge Unlocked!", `You earned: ${badge.name}`, badge.icon);
+        } else {
+          showPopup("Task Completed!", `+${challenge.xp} XP earned`, '✅');
+        }
+
+        updateUI();
+      }
+
+      if (action.dataset.action === 'unlock-badge') {
+        const badge = badges[type].find(b => b.id === id);
+        if (!badge.unlocked) {
+          badge.unlocked = true;
+          user.unlockedBadges.push(id);
+          user.totalXP += badge.xp;
+          user.level = calculateLevel(user.totalXP);
+          showPopup("🎉 Badge Unlocked!", `You earned: ${badge.name}`, badge.icon);
+          updateUI();
+        }
+      }
+    });
+
+    // Initial render
+    updateUI();
+  </script>
+</body>
+</html>
