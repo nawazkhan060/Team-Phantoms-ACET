@@ -211,7 +211,7 @@ if (!isset($active_ward_id)) {
 
             <!-- Upload File Input -->
             <div id="modal-traffic-upload-box">
-              <input type="file" name="violation_photo" class="form-control form-control-lg rounded-3" accept="image/*" capture="environment">
+              <input type="file" name="photo" class="form-control form-control-lg rounded-3" accept="image/*" capture="environment">
             </div>
 
             <!-- Live Camera Feed Box -->
@@ -248,7 +248,7 @@ if (!isset($active_ward_id)) {
             <i class="bi bi-geo-alt-fill text-danger me-1"></i><span class="modal-gps-status">Auto-stamping live location...</span>
           </div>
 
-          <button type="submit" name="submit_traffic_report" class="btn btn-danger btn-lg w-100 rounded-pill font-monospace fw-extrabold py-2.5 shadow-sm" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); border: none;">
+          <button type="submit" name="traffic_report" class="btn btn-danger btn-lg w-100 rounded-pill font-monospace fw-extrabold py-2.5 shadow-sm" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); border: none;">
             <i class="bi bi-send-fill me-1.5"></i>Submit Violation & Earn ₹50 Cash 🚀
           </button>
         </form>
@@ -634,9 +634,25 @@ if (!isset($active_ward_id)) {
 </script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<!-- Bulletproof Programmatic Language Switcher (Devtunnels, Localhost & Mobile) -->
+<!-- Bulletproof Programmatic Language Switcher & Universal Theme Toggle -->
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
+    // 1. Theme Toggle (Light / Dark Mode)
+    const themeBtn = document.getElementById("theme-toggle");
+    const storedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", storedTheme);
+
+    if (themeBtn) {
+      themeBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+      });
+    }
+
+    // 2. Language Switcher (EN / HI / MR)
     const savedLang = localStorage.getItem("app_lang") || "en";
     const labels = { en: "EN", hi: "HI", mr: "MR" };
     const labelEl = document.getElementById("current-lang-label");
@@ -669,6 +685,7 @@ if (!isset($active_ward_id)) {
         const lang = this.getAttribute("data-lang");
         localStorage.setItem("app_lang", lang);
         
+        if (labelEl) labelEl.textContent = labels[lang] || "EN";
         setTransCookies(lang);
         
         const selectElement = document.querySelector('.goog-te-combo');
@@ -679,7 +696,7 @@ if (!isset($active_ward_id)) {
         
         setTimeout(() => {
           window.location.reload();
-        }, 100);
+        }, 150);
       });
     });
 
