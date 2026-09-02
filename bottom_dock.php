@@ -622,6 +622,15 @@ if (!isset($active_ward_id)) {
 
 <!-- Google Translate Wrapper -->
 <div id="google_translate_element" style="display:none;"></div>
+
+<!-- Bootstrap 5 JS Bundle Guard -->
+<script type="text/javascript">
+  if (typeof bootstrap === 'undefined') {
+    const bsScript = document.createElement('script');
+    bsScript.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js";
+    document.head.appendChild(bsScript);
+  }
+</script>
 <script type="text/javascript">
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({

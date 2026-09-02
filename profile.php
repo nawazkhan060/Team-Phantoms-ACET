@@ -375,6 +375,25 @@ if ($is_logged_in) {
               <i class="bi bi-check-circle-fill me-1"></i>Save Active Ward Preference
             </button>
           </form>
+
+          <!-- Portal Language Preference Card -->
+          <div class="border-top pt-4 mt-4">
+            <h5 class="fw-bold text-dark mb-1"><i class="bi bi-translate text-primary me-2"></i>Portal Language Preference (भाषा पसंद)</h5>
+            <p class="text-muted small mb-3">Select your preferred portal language. Your chosen language will stay active across all pages, services, and mobile views.</p>
+
+            <div class="d-flex flex-wrap gap-2.5" id="profile-lang-selector">
+              <button type="button" class="btn btn-outline-primary rounded-pill px-4 py-2 font-monospace fw-bold lang-select-btn" data-lang="en">
+                🇬🇧 English (EN)
+              </button>
+              <button type="button" class="btn btn-outline-success rounded-pill px-4 py-2 font-monospace fw-bold lang-select-btn" data-lang="hi">
+                🇮🇳 हिंदी (HI)
+              </button>
+              <button type="button" class="btn btn-outline-warning text-dark rounded-pill px-4 py-2 font-monospace fw-bold lang-select-btn" data-lang="mr">
+                🚩 मराठी (MR)
+              </button>
+            </div>
+            <small class="text-muted mt-2 d-block"><i class="bi bi-shield-check text-success me-1"></i>Language preference automatically syncs across all pages & sessions.</small>
+          </div>
         </div>
       </div>
 
