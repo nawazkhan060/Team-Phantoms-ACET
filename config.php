@@ -18,7 +18,7 @@ $charset = 'utf8mb4';
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 465);
 define('SMTP_USER', 'kagamergamero@gmail.com');
-define('SMTP_PASS', 'glso gbef jcfj keir'); // App-specific password
+define('SMTP_PASS', 'aqsc ftjw edkh yhgl'); // App-specific password
 define('SMTP_SECURE', 'ssl');
 define('SMTP_FROM_EMAIL', 'kagamergamero@gmail.com');
 define('SMTP_FROM_NAME', 'City Civic Portal');

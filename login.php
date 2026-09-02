@@ -105,16 +105,44 @@ if (isset($_POST['send_otp'])) {
             $mail->addAddress($email);
             
             $mail->isHTML(true);
-            $mail->Subject = 'Your OTP for City Civic Portal';
+            $mail->Subject = 'Your Login OTP - Nagpur Municipal Smart Citizen Portal';
             $mail->Body    = "
-                <div style='font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;'>
-                    <h2 style='color: #27ae60; text-align: center;'>City Civic Portal</h2>
-                    <p>Hello,</p>
-                    <p>You requested access to the City Civic Portal. Use the following 6-digit One-Time Password (OTP) to log in:</p>
-                    <div style='background: #f0fdf4; border: 1px dashed #27ae60; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px; color: #166534; margin: 20px 0;'>
+                <div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 0; background-color: #f8fafc; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0;\">
+                  <!-- Header Banner -->
+                  <div style=\"background: linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%); padding: 30px 24px; text-align: center; color: #ffffff;\">
+                    <div style=\"font-size: 36px; margin-bottom: 6px;\">🏛️</div>
+                    <h2 style=\"margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase;\">Nagpur Municipal Corporation</h2>
+                    <span style=\"display: inline-block; background: rgba(255,255,255,0.22); padding: 4px 14px; border-radius: 50px; font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-top: 8px; text-transform: uppercase;\">Smart Citizen Digital Access</span>
+                  </div>
+                  
+                  <!-- Content Container -->
+                  <div style=\"padding: 30px 26px; background-color: #ffffff;\">
+                    <h3 style=\"margin: 0 0 10px 0; color: #0f172a; font-size: 18px; font-weight: 700;\">Hello Citizen 👋</h3>
+                    <p style=\"margin: 0 0 22px 0; color: #475569; font-size: 14px; line-height: 1.6;\">You requested digital access to the Nagpur Mahanagar Palika Smart Portal. Use the One-Time Verification Passcode below to log in:</p>
+                    
+                    <!-- OTP Code Highlight Box -->
+                    <div style=\"background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px dashed #34d399; border-radius: 16px; padding: 22px 16px; text-align: center; margin: 0 0 22px 0;\">
+                      <span style=\"display: block; font-size: 11px; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;\">Your 6-Digit Login Code</span>
+                      <div style=\"font-family: 'Courier New', Courier, monospace; font-size: 36px; font-weight: 900; letter-spacing: 8px; color: #065f46; margin: 0;\">
                         {$otp}
+                      </div>
+                      <div style=\"margin-top: 10px; font-size: 12px; color: #059669; font-weight: 600;\">
+                        ⏱️ Valid for 5 Minutes &bull; Single Use Verification
+                      </div>
                     </div>
-                    <p style='font-size: 12px; color: #64748b; text-align: center;'>This OTP is valid for 5 minutes. Please do not share it with anyone.</p>
+                    
+                    <div style=\"background-color: #f1f5f9; border-left: 4px solid #059669; padding: 12px 16px; border-radius: 4px; margin-bottom: 22px;\">
+                      <p style=\"margin: 0; font-size: 12px; color: #334155; line-height: 1.5;\"><strong>🔒 Security Tip:</strong> Never share this OTP code with anyone, including municipal staff. Officials will never ask for your verification code.</p>
+                    </div>
+                    
+                    <p style=\"margin: 0; color: #94a3b8; font-size: 12px; text-align: center;\">If you did not request this login attempt, please ignore this email.</p>
+                  </div>
+                  
+                  <!-- Footer -->
+                  <div style=\"background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 18px 24px; text-align: center; color: #64748b; font-size: 11px;\">
+                    <p style=\"margin: 0 0 4px 0; font-weight: 600; color: #475569;\">Nagpur Mahanagar Palika Smart Citizen Services</p>
+                    <p style=\"margin: 0;\">City Governance, Utility Bills, Public Transit & Eco Services</p>
+                  </div>
                 </div>";
             
             $mail->send();
@@ -202,16 +230,44 @@ if (isset($_POST['resend_otp'])) {
             $mail->addAddress($email);
             
             $mail->isHTML(true);
-            $mail->Subject = 'Your OTP for City Civic Portal (Resent)';
+            $mail->Subject = 'Resent Login OTP - Nagpur Municipal Smart Citizen Portal';
             $mail->Body    = "
-                <div style='font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;'>
-                    <h2 style='color: #27ae60; text-align: center;'>City Civic Portal</h2>
-                    <p>Hello,</p>
-                    <p>Here is your resent One-Time Password (OTP) to log in:</p>
-                    <div style='background: #f0fdf4; border: 1px dashed #27ae60; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px; color: #166534; margin: 20px 0;'>
+                <div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 0; background-color: #f8fafc; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0;\">
+                  <!-- Header Banner -->
+                  <div style=\"background: linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%); padding: 30px 24px; text-align: center; color: #ffffff;\">
+                    <div style=\"font-size: 36px; margin-bottom: 6px;\">🏛️</div>
+                    <h2 style=\"margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase;\">Nagpur Municipal Corporation</h2>
+                    <span style=\"display: inline-block; background: rgba(255,255,255,0.22); padding: 4px 14px; border-radius: 50px; font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-top: 8px; text-transform: uppercase;\">Resent Citizen Digital Passcode</span>
+                  </div>
+                  
+                  <!-- Content Container -->
+                  <div style=\"padding: 30px 26px; background-color: #ffffff;\">
+                    <h3 style=\"margin: 0 0 10px 0; color: #0f172a; font-size: 18px; font-weight: 700;\">Hello Citizen 👋</h3>
+                    <p style=\"margin: 0 0 22px 0; color: #475569; font-size: 14px; line-height: 1.6;\">Here is your updated One-Time Password (OTP) to log into the Nagpur Mahanagar Palika Smart Portal:</p>
+                    
+                    <!-- OTP Code Highlight Box -->
+                    <div style=\"background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px dashed #34d399; border-radius: 16px; padding: 22px 16px; text-align: center; margin: 0 0 22px 0;\">
+                      <span style=\"display: block; font-size: 11px; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;\">Your Updated 6-Digit Login Code</span>
+                      <div style=\"font-family: 'Courier New', Courier, monospace; font-size: 36px; font-weight: 900; letter-spacing: 8px; color: #065f46; margin: 0;\">
                         {$otp}
+                      </div>
+                      <div style=\"margin-top: 10px; font-size: 12px; color: #059669; font-weight: 600;\">
+                        ⏱️ Valid for 5 Minutes &bull; Single Use Verification
+                      </div>
                     </div>
-                    <p style='font-size: 12px; color: #64748b; text-align: center;'>This OTP is valid for 5 minutes. Please do not share it with anyone.</p>
+                    
+                    <div style=\"background-color: #f1f5f9; border-left: 4px solid #059669; padding: 12px 16px; border-radius: 4px; margin-bottom: 22px;\">
+                      <p style=\"margin: 0; font-size: 12px; color: #334155; line-height: 1.5;\"><strong>🔒 Security Tip:</strong> Never share this OTP code with anyone, including municipal staff. Officials will never ask for your verification code.</p>
+                    </div>
+                    
+                    <p style=\"margin: 0; color: #94a3b8; font-size: 12px; text-align: center;\">If you did not request this login attempt, please ignore this email.</p>
+                  </div>
+                  
+                  <!-- Footer -->
+                  <div style=\"background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 18px 24px; text-align: center; color: #64748b; font-size: 11px;\">
+                    <p style=\"margin: 0 0 4px 0; font-weight: 600; color: #475569;\">Nagpur Mahanagar Palika Smart Citizen Services</p>
+                    <p style=\"margin: 0;\">City Governance, Utility Bills, Public Transit & Eco Services</p>
+                  </div>
                 </div>";
             $mail->send();
             $success = "OTP has been resent successfully!";
