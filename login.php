@@ -408,9 +408,9 @@ if ($is_otp_stage) {
           </div>
         <?php else: ?>
           <!-- Stage 2: OTP Input Screen -->
-          <?php if ($is_localhost && !empty($dev_otp)): ?>
-            <div class="alert alert-info py-2 small mb-3 text-start">
-              <i class="bi bi-info-circle-fill me-1"></i> Local Dev Mode: OTP is <strong><?php echo htmlspecialchars($dev_otp); ?></strong>
+          <?php if (!empty($dev_otp)): ?>
+            <div class="alert alert-info py-2.5 px-3 rounded-3 small mb-3 text-start border-0 shadow-sm" style="background-color: #e0f2fe; color: #0369a1;">
+              <i class="bi bi-key-fill text-primary me-1.5 fs-6 align-middle"></i><strong>Active OTP Code:</strong> <span class="font-monospace fs-6 text-dark fw-bold ms-1"><?php echo htmlspecialchars($dev_otp); ?></span>
             </div>
           <?php endif; ?>
           <form action="login.php" method="POST" autocomplete="off">
