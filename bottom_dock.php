@@ -110,8 +110,37 @@ if (!isset($active_ward_id)) {
       <div class="modal-body p-4">
         <form action="potholes.php" method="POST" enctype="multipart/form-data">
           <div class="mb-3">
-            <label class="form-label fw-bold text-dark"><i class="bi bi-camera-fill me-1 text-primary"></i>Damage Photo Evidence</label>
-            <input type="file" name="photo" class="form-control form-control-lg rounded-3" accept="image/*" capture="environment" required>
+            <label class="form-label fw-bold text-dark"><i class="bi bi-camera-fill me-1 text-primary"></i>Photo Source</label>
+            <div class="btn-group w-100 p-1 bg-light border rounded-pill mb-2.5" role="group">
+              <input type="radio" class="btn-check" name="pothole_photo_source" id="modal-pothole-src-upload" value="upload" checked>
+              <label class="btn btn-outline-primary border-0 rounded-pill font-monospace fw-bold py-1.5 small" for="modal-pothole-src-upload"><i class="bi bi-file-earmark-image me-1"></i>Upload File</label>
+
+              <input type="radio" class="btn-check" name="pothole_photo_source" id="modal-pothole-src-webcam" value="webcam">
+              <label class="btn btn-outline-primary border-0 rounded-pill font-monospace fw-bold py-1.5 small" for="modal-pothole-src-webcam"><i class="bi bi-camera-video-fill me-1"></i>Live Camera</label>
+            </div>
+
+            <!-- Upload File Input -->
+            <div id="modal-pothole-upload-box">
+              <input type="file" name="photo" class="form-control form-control-lg rounded-3" accept="image/*" capture="environment">
+            </div>
+
+            <!-- Live Camera Feed Box -->
+            <div id="modal-pothole-webcam-box" class="d-none">
+              <div class="position-relative bg-dark rounded-4 overflow-hidden border text-center mb-2 shadow-sm" style="height: 220px; display: flex; align-items: center; justify-content: center;">
+                <video id="modal-pothole-video" autoplay playsinline class="position-absolute top-0 start-0 w-100 h-100 d-none" style="object-fit: cover;"></video>
+                <canvas id="modal-pothole-canvas" class="d-none" width="640" height="480"></canvas>
+                <img id="modal-pothole-preview" class="position-absolute top-0 start-0 w-100 h-100 d-none" style="object-fit: cover;">
+                <div id="modal-pothole-placeholder" class="text-center p-3 text-white">
+                  <i class="bi bi-camera fs-1 text-info d-block mb-1"></i>
+                  <span class="small">Click "Start Camera" to activate live feed</span>
+                </div>
+              </div>
+              <div class="text-center d-flex justify-content-center gap-2">
+                <button type="button" id="btn-modal-pothole-start" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-bold"><i class="bi bi-power me-1"></i>Start Camera</button>
+                <button type="button" id="btn-modal-pothole-capture" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold d-none"><i class="bi bi-camera-fill me-1"></i>Capture</button>
+              </div>
+              <input type="hidden" name="webcam_photo" id="modal-pothole-webcam-data">
+            </div>
           </div>
           
           <div class="mb-3">
@@ -171,8 +200,37 @@ if (!isset($active_ward_id)) {
           </div>
 
           <div class="mb-3">
-            <label class="form-label fw-bold text-dark">Photo Evidence</label>
-            <input type="file" name="violation_photo" class="form-control form-control-lg rounded-3" accept="image/*" capture="environment" required>
+            <label class="form-label fw-bold text-dark"><i class="bi bi-camera-fill me-1 text-danger"></i>Photo Evidence</label>
+            <div class="btn-group w-100 p-1 bg-light border rounded-pill mb-2.5" role="group">
+              <input type="radio" class="btn-check" name="traffic_photo_source" id="modal-traffic-src-upload" value="upload" checked>
+              <label class="btn btn-outline-danger border-0 rounded-pill font-monospace fw-bold py-1.5 small" for="modal-traffic-src-upload"><i class="bi bi-file-earmark-image me-1"></i>Upload File</label>
+
+              <input type="radio" class="btn-check" name="traffic_photo_source" id="modal-traffic-src-webcam" value="webcam">
+              <label class="btn btn-outline-danger border-0 rounded-pill font-monospace fw-bold py-1.5 small" for="modal-traffic-src-webcam"><i class="bi bi-camera-video-fill me-1"></i>Live Camera</label>
+            </div>
+
+            <!-- Upload File Input -->
+            <div id="modal-traffic-upload-box">
+              <input type="file" name="violation_photo" class="form-control form-control-lg rounded-3" accept="image/*" capture="environment">
+            </div>
+
+            <!-- Live Camera Feed Box -->
+            <div id="modal-traffic-webcam-box" class="d-none">
+              <div class="position-relative bg-dark rounded-4 overflow-hidden border text-center mb-2 shadow-sm" style="height: 220px; display: flex; align-items: center; justify-content: center;">
+                <video id="modal-traffic-video" autoplay playsinline class="position-absolute top-0 start-0 w-100 h-100 d-none" style="object-fit: cover;"></video>
+                <canvas id="modal-traffic-canvas" class="d-none" width="640" height="480"></canvas>
+                <img id="modal-traffic-preview" class="position-absolute top-0 start-0 w-100 h-100 d-none" style="object-fit: cover;">
+                <div id="modal-traffic-placeholder" class="text-center p-3 text-white">
+                  <i class="bi bi-camera fs-1 text-danger d-block mb-1"></i>
+                  <span class="small">Click "Start Camera" to activate live feed</span>
+                </div>
+              </div>
+              <div class="text-center d-flex justify-content-center gap-2">
+                <button type="button" id="btn-modal-traffic-start" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-bold"><i class="bi bi-power me-1"></i>Start Camera</button>
+                <button type="button" id="btn-modal-traffic-capture" class="btn btn-sm btn-danger rounded-pill px-3 py-1 fw-bold d-none"><i class="bi bi-camera-fill me-1"></i>Capture</button>
+              </div>
+              <input type="hidden" name="webcam_photo" id="modal-traffic-webcam-data">
+            </div>
           </div>
 
           <div class="row mb-3">
@@ -430,6 +488,86 @@ if (!isset($active_ward_id)) {
         triggerProductModal(code);
       });
     });
+
+    // Live Camera Handler for Quick Pop-up Modals
+    function setupModalCamera(prefix) {
+      const srcUpload = document.getElementById(`modal-${prefix}-src-upload`);
+      const srcWebcam = document.getElementById(`modal-${prefix}-src-webcam`);
+      const uploadBox = document.getElementById(`modal-${prefix}-upload-box`);
+      const webcamBox = document.getElementById(`modal-${prefix}-webcam-box`);
+      const video = document.getElementById(`modal-${prefix}-video`);
+      const canvas = document.getElementById(`modal-${prefix}-canvas`);
+      const preview = document.getElementById(`modal-${prefix}-preview`);
+      const placeholder = document.getElementById(`modal-${prefix}-placeholder`);
+      const btnStart = document.getElementById(`btn-modal-${prefix}-start`);
+      const btnCapture = document.getElementById(`btn-modal-${prefix}-capture`);
+      const webcamData = document.getElementById(`modal-${prefix}-webcam-data`);
+      
+      let stream = null;
+
+      if (!srcUpload || !srcWebcam) return;
+
+      srcUpload.addEventListener('change', function() {
+        if (this.checked) {
+          uploadBox.classList.remove('d-none');
+          webcamBox.classList.add('d-none');
+          stopCamera();
+        }
+      });
+
+      srcWebcam.addEventListener('change', function() {
+        if (this.checked) {
+          uploadBox.classList.add('d-none');
+          webcamBox.classList.remove('d-none');
+          startCamera();
+        }
+      });
+
+      async function startCamera() {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+          video.srcObject = stream;
+          video.classList.remove('d-none');
+          placeholder.classList.add('d-none');
+          btnStart.classList.add('d-none');
+          btnCapture.classList.remove('d-none');
+        } catch (err) {
+          alert('Could not access camera. Please check camera permissions or select Upload File.');
+        }
+      }
+
+      function stopCamera() {
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          stream = null;
+        }
+        video.classList.add('d-none');
+        placeholder.classList.remove('d-none');
+        btnStart.classList.remove('d-none');
+        btnCapture.classList.add('d-none');
+      }
+
+      if (btnStart) btnStart.addEventListener('click', startCamera);
+
+      if (btnCapture) {
+        btnCapture.addEventListener('click', function() {
+          const context = canvas.getContext('2d');
+          canvas.width = video.videoWidth || 640;
+          canvas.height = video.videoHeight || 480;
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL('image/jpeg');
+          preview.src = dataUrl;
+          preview.classList.remove('d-none');
+          webcamData.value = dataUrl;
+          stopCamera();
+          btnStart.innerHTML = '<i class="bi bi-arrow-counterclockwise me-1"></i>Retake Photo';
+          btnStart.classList.remove('d-none');
+        });
+      }
+    }
+
+    setupModalCamera('pothole');
+    setupModalCamera('traffic');
   });
 </script>
 
