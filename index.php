@@ -990,35 +990,39 @@ $wards = $conn->query("SELECT * FROM wards ORDER BY name ASC")->fetchAll();
     <!-- Civic Donation & Environmental Impact Fund Section -->
     <div class="row mt-4 mb-2">
       <div class="col-12">
-        <div class="card border-0 shadow-lg rounded-4 overflow-hidden text-white" style="background: linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%); box-shadow: 0 12px 30px rgba(5, 150, 105, 0.25) !important;">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden text-white" style="background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #047857 100%) !important; border: 2px solid #10b981 !important; border-radius: 24px !important; box-shadow: 0 15px 35px rgba(4, 120, 87, 0.35) !important;">
           <div class="card-body p-4 p-md-5 position-relative">
             <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-4">
               <div>
-                <div class="d-inline-flex align-items-center gap-2 bg-black bg-opacity-25 border border-white border-opacity-20 px-3.5 py-1.5 rounded-pill mb-3 small font-monospace fw-bold text-warning">
+                <div class="d-inline-flex align-items-center gap-2 bg-dark bg-opacity-75 border border-warning px-3 py-1.5 rounded-pill mb-3 font-monospace fw-bold" style="color: #fbbf24 !important;">
                   <i class="bi bi-heart-fill text-warning fs-6"></i>
-                  <span>NAGPUR MUNICIPAL CIVIC IMPACT FUND</span>
+                  <span style="letter-spacing: 0.5px;">NAGPUR MUNICIPAL CIVIC IMPACT FUND</span>
                 </div>
-                <h3 class="fw-extrabold text-white mb-2" style="letter-spacing: -0.5px;">Support Our Green City Mission 🌳💧</h3>
-                <p class="text-white opacity-90 mb-3" style="max-width: 680px; font-size: 0.98rem;">Contribute directly to urban tree plantation drives, clean drinking water kiosks, solar streetlights, and street pothole repairs across Nagpur. Earn <strong class="text-warning">+25 Eco XP</strong> per ₹100 donated!</p>
+
+                <h3 class="fw-extrabold text-white mb-2.5" style="font-size: 1.55rem; letter-spacing: -0.5px; text-shadow: 0 2px 5px rgba(0,0,0,0.5);">Support Our Green City Mission 🌳💧</h3>
+                
+                <p class="mb-3.5" style="color: #ecfdf5 !important; font-size: 0.96rem; max-width: 680px; line-height: 1.55; font-weight: 500;">
+                  Contribute directly to urban tree plantation drives, clean drinking water kiosks, solar streetlights, and street pothole repairs across Nagpur. Earn <span class="badge bg-warning text-dark font-monospace fw-extrabold px-2 py-1 ms-1">+25 Eco XP</span> per ₹100 donated!
+                </p>
                 
                 <div class="d-flex flex-wrap gap-2">
-                  <a href="donation.php" class="btn btn-light btn-sm rounded-pill font-monospace fw-bold px-3 py-1.5 text-success shadow-sm">
+                  <a href="donation.php" class="btn btn-light btn-sm rounded-pill font-monospace fw-bold px-3 py-1.5 text-dark shadow-sm border border-success-subtle">
                     🌳 Plant Trees (₹100)
                   </a>
-                  <a href="donation.php" class="btn btn-light btn-sm rounded-pill font-monospace fw-bold px-3 py-1.5 text-primary shadow-sm">
+                  <a href="donation.php" class="btn btn-light btn-sm rounded-pill font-monospace fw-bold px-3 py-1.5 text-dark shadow-sm border border-primary-subtle">
                     💧 Water Kiosk (₹250)
                   </a>
-                  <a href="donation.php" class="btn btn-light btn-sm rounded-pill font-monospace fw-bold px-3 py-1.5 text-purple shadow-sm" style="color: #7e22ce !important;">
+                  <a href="donation.php" class="btn btn-light btn-sm rounded-pill font-monospace fw-bold px-3 py-1.5 text-dark shadow-sm border border-purple-subtle">
                     🛠️ Potholes (₹500)
                   </a>
-                  <a href="donation.php" class="btn btn-light btn-sm rounded-pill font-monospace fw-bold px-3 py-1.5 text-warning shadow-sm" style="color: #d97706 !important;">
+                  <a href="donation.php" class="btn btn-light btn-sm rounded-pill font-monospace fw-bold px-3 py-1.5 text-dark shadow-sm border border-warning-subtle">
                     ☀️ Solar Kit (₹1000)
                   </a>
                 </div>
               </div>
 
-              <div class="text-lg-end">
-                <a href="donation.php" class="btn btn-warning btn-lg rounded-pill font-monospace fw-extrabold px-4 py-3 shadow-lg text-dark text-nowrap" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: none; font-size: 1.05rem;">
+              <div class="text-lg-end mt-2 mt-lg-0">
+                <a href="donation.php" class="btn btn-warning btn-lg rounded-pill font-monospace fw-extrabold px-4 py-3 shadow-lg text-dark text-nowrap w-100 w-lg-auto" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; border: none; font-size: 1.05rem; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.45) !important;">
                   <i class="bi bi-heart-fill me-2 text-danger"></i>Contribute to Civic Fund 🚀
                 </a>
               </div>
