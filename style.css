@@ -1276,20 +1276,49 @@ body {
     font-size: 1.35rem !important;
   }
 
-  /* Filter chips horizontal touch slider */
-  .filter-chips, .category-slider, .horizontal-slider {
+  /* Filter chips horizontal touch slider - Strict 1 Line Left-to-Right Scroll */
+  .filter-chips-container, .filter-chips, .category-slider, .horizontal-slider {
     display: flex !important;
     flex-wrap: nowrap !important;
     overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 8px !important;
-    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 12px !important;
+    gap: 8px !important;
+    width: 100% !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
 
+  .filter-chips-container::-webkit-scrollbar,
   .filter-chips::-webkit-scrollbar,
   .category-slider::-webkit-scrollbar,
   .horizontal-slider::-webkit-scrollbar {
     display: none !important;
+  }
+
+  .filter-chips-container .filter-chip,
+  .filter-chip {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    border-radius: 50px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  /* Compact Mobile Spacing to Eliminate Large Gaps */
+  .mb-4, .my-4 {
+    margin-bottom: 0.85rem !important;
+  }
+
+  .py-4, .py-md-4 {
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.6rem !important;
+  }
+
+  .mockup-hero, .community-polls-banner, .card {
+    margin-bottom: 0.85rem !important;
   }
 
   .btn-group {
