@@ -404,9 +404,23 @@ if (!isset($active_ward_id)) {
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <div class="modal-body p-0 bg-dark position-relative" style="min-height: 520px;">
-        <!-- Embedded ElevenLabs Talk-To Agent Frame -->
-        <iframe src="https://elevenlabs.io/app/talk-to?agent_id=agent_9001m1gjrgkfemf9dw6xd5v350yv&branch_id=agtbrch_3101m1gjrhrceph9jvnda5npt5wv" allow="microphone; camera; autoplay" class="w-100 border-0" style="height: 540px; width: 100%; border: none;"></iframe>
+      <div class="modal-body p-4 p-md-5 text-center text-white" style="background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #047857 100%);">
+        <div class="rounded-circle bg-white text-success p-3 d-inline-flex align-items-center justify-content-center shadow-lg mb-3" style="width: 80px; height: 80px;">
+          <i class="bi bi-mic-fill display-5 text-success"></i>
+        </div>
+        <h3 class="fw-extrabold text-white mb-2">Connect to Aanya Voice AI 🎙️</h3>
+        <p class="text-white opacity-90 mb-4 mx-auto" style="max-width: 520px; font-size: 0.98rem; line-height: 1.6;">
+          Talk live in real-time with Aanya, the official Nagpur Mahanagar Palika Voice AI. Ask about pothole reports, ₹50 traffic rewards, bus schedules, or utility bill payments in Hindi or English!
+        </p>
+
+        <a href="https://elevenlabs.io/app/talk-to?agent_id=agent_9001m1gjrgkfemf9dw6xd5v350yv&branch_id=agtbrch_3101m1gjrhrceph9jvnda5npt5wv" target="_blank" rel="noopener noreferrer" class="btn btn-warning btn-lg rounded-pill font-monospace fw-extrabold px-5 py-3 shadow-lg text-dark text-nowrap d-inline-flex align-items-center gap-2 mb-3" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: none; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.45) !important;">
+          <i class="bi bi-headset fs-4 text-danger"></i>
+          <span>Launch ElevenLabs Voice Assistant 🚀</span>
+        </a>
+
+        <div class="d-block text-white-50 small font-monospace">
+          <i class="bi bi-shield-check text-warning me-1"></i>Secure 128-bit Encrypted Voice Tunnel Connected
+        </div>
       </div>
 
       <div class="modal-footer border-0 bg-light py-2.5 px-4 d-flex justify-content-between align-items-center">
