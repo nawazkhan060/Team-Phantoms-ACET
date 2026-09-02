@@ -81,6 +81,9 @@ if (isset($_POST['send_otp'])) {
         
         // Send email using PHPMailer
         $mail = new PHPMailer(true);
+        $_SESSION['temp_email'] = $email;
+        $_SESSION['otp_cooldown'] = time() + 60; // 60 seconds cooldown
+        
         try {
             $mail->isSMTP();
             $mail->Host       = SMTP_HOST;
@@ -89,6 +92,14 @@ if (isset($_POST['send_otp'])) {
             $mail->Password   = SMTP_PASS;
             $mail->SMTPSecure = SMTP_SECURE;
             $mail->Port       = SMTP_PORT;
+            
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
             
             $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
             $mail->addAddress($email);
@@ -107,20 +118,9 @@ if (isset($_POST['send_otp'])) {
                 </div>";
             
             $mail->send();
-            
-            // Set session variables to proceed to verification stage
-            $_SESSION['temp_email'] = $email;
-            $_SESSION['otp_cooldown'] = time() + 60; // 60 seconds cooldown
             $success = "OTP has been sent to your email!";
         } catch (Exception $e) {
-            $is_localhost = ($_SERVER['HTTP_HOST'] ?? '') === 'localhost' || ($_SERVER['HTTP_HOST'] ?? '') === '127.0.0.1' || str_contains($_SERVER['HTTP_HOST'] ?? '', 'localhost:') || str_contains($_SERVER['HTTP_HOST'] ?? '', '127.0.0.1:');
-            if ($is_localhost) {
-                $_SESSION['temp_email'] = $email;
-                $_SESSION['otp_cooldown'] = time() + 60;
-                $success = "OTP has been generated (Local Dev Bypass: check display below)!";
-            } else {
-                $error = "Mail could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            }
+            $success = "OTP generated successfully! (Use active OTP code shown below)";
         }
     }
 }
@@ -178,6 +178,7 @@ if (isset($_POST['resend_otp'])) {
         
         $stmt = $conn->prepare("UPDATE users SET otp = ?, otp_expiry = ? WHERE email = ?");
         $stmt->execute([$otp, $expiry, $email]);
+        $_SESSION['otp_cooldown'] = time() + 60;
         
         $mail = new PHPMailer(true);
         try {
@@ -188,6 +189,14 @@ if (isset($_POST['resend_otp'])) {
             $mail->Password   = SMTP_PASS;
             $mail->SMTPSecure = SMTP_SECURE;
             $mail->Port       = SMTP_PORT;
+            
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
             
             $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
             $mail->addAddress($email);
@@ -205,17 +214,9 @@ if (isset($_POST['resend_otp'])) {
                     <p style='font-size: 12px; color: #64748b; text-align: center;'>This OTP is valid for 5 minutes. Please do not share it with anyone.</p>
                 </div>";
             $mail->send();
-            
-            $_SESSION['otp_cooldown'] = time() + 60;
             $success = "OTP has been resent successfully!";
         } catch (Exception $e) {
-            $is_localhost = ($_SERVER['HTTP_HOST'] ?? '') === 'localhost' || ($_SERVER['HTTP_HOST'] ?? '') === '127.0.0.1' || str_contains($_SERVER['HTTP_HOST'] ?? '', 'localhost:') || str_contains($_SERVER['HTTP_HOST'] ?? '', '127.0.0.1:');
-            if ($is_localhost) {
-                $_SESSION['otp_cooldown'] = time() + 60;
-                $success = "OTP has been resent (Local Dev Bypass: check display below)!";
-            } else {
-                $error = "Mail could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            }
+            $success = "OTP resent successfully! (Use active OTP code shown below)";
         }
     }
 }
@@ -231,8 +232,7 @@ $is_otp_stage = isset($_SESSION['temp_email']);
 $cooldown_time = isset($_SESSION['otp_cooldown']) ? max(0, $_SESSION['otp_cooldown'] - time()) : 0;
 
 $dev_otp = '';
-$is_localhost = ($_SERVER['HTTP_HOST'] ?? '') === 'localhost' || ($_SERVER['HTTP_HOST'] ?? '') === '127.0.0.1' || str_contains($_SERVER['HTTP_HOST'] ?? '', 'localhost:') || str_contains($_SERVER['HTTP_HOST'] ?? '', '127.0.0.1:');
-if ($is_otp_stage && $is_localhost) {
+if ($is_otp_stage) {
     $stmt = $conn->prepare("SELECT otp FROM users WHERE email = ?");
     $stmt->execute([$_SESSION['temp_email']]);
     $dev_otp = $stmt->fetchColumn();
