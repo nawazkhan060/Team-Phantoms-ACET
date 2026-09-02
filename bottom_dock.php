@@ -404,19 +404,20 @@ if (!isset($active_ward_id)) {
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <div class="modal-body p-4 p-md-5 text-center text-white" style="background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #047857 100%);">
-        <div class="rounded-circle bg-white text-success p-3 d-inline-flex align-items-center justify-content-center shadow-lg mb-3" style="width: 80px; height: 80px;">
-          <i class="bi bi-mic-fill display-5 text-success"></i>
+      <div class="modal-body p-4 text-center text-white" style="background: linear-gradient(135deg, #022c22 0%, #064e3b 50%, #047857 100%); min-height: 380px;">
+        <div class="rounded-circle bg-white text-success p-3 d-inline-flex align-items-center justify-content-center shadow-lg mb-3" style="width: 70px; height: 70px;">
+          <i class="bi bi-mic-fill fs-1 text-success"></i>
         </div>
-        <h3 class="fw-extrabold text-white mb-2">Connect to Aanya Voice AI 🎙️</h3>
-        <p class="text-white opacity-90 mb-4 mx-auto" style="max-width: 520px; font-size: 0.98rem; line-height: 1.6;">
-          Talk live in real-time with Aanya, the official Nagpur Mahanagar Palika Voice AI. Ask about pothole reports, ₹50 traffic rewards, bus schedules, or utility bill payments in Hindi or English!
+        <h4 class="fw-extrabold text-white mb-2">Aanya Voice AI — Live on Same Page 🎙️</h4>
+        <p class="text-white opacity-90 mb-3 mx-auto" style="max-width: 480px; font-size: 0.94rem; line-height: 1.5;">
+          Speak directly with Aanya using your device microphone below! Ask about pothole repairs, ₹50 traffic rewards, bus schedules, or utility bill payments in Hindi or English.
         </p>
 
-        <a href="https://elevenlabs.io/app/talk-to?agent_id=agent_9001m1gjrgkfemf9dw6xd5v350yv&branch_id=agtbrch_3101m1gjrhrceph9jvnda5npt5wv" target="_blank" rel="noopener noreferrer" class="btn btn-warning btn-lg rounded-pill font-monospace fw-extrabold px-5 py-3 shadow-lg text-dark text-nowrap d-inline-flex align-items-center gap-2 mb-3" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: none; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.45) !important;">
-          <i class="bi bi-headset fs-4 text-danger"></i>
-          <span>Launch ElevenLabs Voice Assistant 🚀</span>
-        </a>
+        <!-- In-Page Embedded ElevenLabs ConvAI Widget Container -->
+        <div class="p-4 rounded-4 bg-dark bg-opacity-50 border border-success-subtle shadow-inner mb-3 d-flex flex-column align-items-center justify-content-center" style="min-height: 180px;">
+          <elevenlabs-convai agent-id="agent_9001m1gjrgkfemf9dw6xd5v350yv"></elevenlabs-convai>
+          <span class="small text-warning font-monospace mt-2"><i class="bi bi-record-fill text-danger me-1 animate-pulse"></i>Microphone Active — Click the widget button to speak</span>
+        </div>
 
         <div class="d-block text-white-50 small font-monospace">
           <i class="bi bi-shield-check text-warning me-1"></i>Secure 128-bit Encrypted Voice Tunnel Connected
