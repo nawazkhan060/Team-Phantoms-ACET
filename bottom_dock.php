@@ -710,7 +710,18 @@ if (!isset($active_ward_id)) {
     const labelEl = document.getElementById("current-lang-label");
     if (labelEl) labelEl.textContent = labels[savedLang] || "EN";
 
-    function setTransCookies(lang) {
+    // Highlight Active Profile Language Button
+    document.querySelectorAll(".lang-select-btn").forEach(btn => {
+      const bLang = btn.getAttribute("data-lang");
+      if (bLang === savedLang) {
+        btn.classList.add("active", "shadow-sm");
+        if (bLang === "en") btn.classList.replace("btn-outline-primary", "btn-primary");
+        if (bLang === "hi") btn.classList.replace("btn-outline-success", "btn-success");
+        if (bLang === "mr") btn.classList.replace("btn-outline-warning", "btn-warning");
+      }
+    });
+
+    document.querySelectorAll(".lang-select-btn").forEach(btn => {
       const isHttps = window.location.protocol === 'https:';
       const secureFlag = isHttps ? '; Secure' : '';
       const host = window.location.hostname;

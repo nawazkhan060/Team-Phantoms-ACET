@@ -1325,6 +1325,37 @@ elevenlabs-convai {
     align-items: center !important;
   }
 
+  /* Global Extra Small Screen (Mobile < 576px) Responsiveness */
+  @media (max-width: 576px) {
+    html, body {
+      overflow-x: hidden !important;
+      width: 100% !important;
+    }
+    
+    .card {
+      border-radius: 16px !important;
+    }
+    
+    .table-responsive {
+      border-radius: 12px !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .btn-lg {
+      padding: 0.65rem 1rem !important;
+      font-size: 0.95rem !important;
+    }
+    
+    .modal-dialog {
+      margin: 0.5rem !important;
+    }
+    
+    .modal-content {
+      border-radius: 20px !important;
+    }
+  }
+
   /* Compact Mobile Spacing to Eliminate Large Gaps */
   .mb-4, .my-4 {
     margin-bottom: 0.85rem !important;

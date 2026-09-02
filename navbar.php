@@ -53,18 +53,6 @@ $nav_active_ward_name = $active_ward_name ?? '';
         </a>
       </div>
 
-      <!-- Language Switcher -->
-      <div class="dropdown">
-        <button class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-1 font-monospace dropdown-toggle d-flex align-items-center gap-1" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.78rem;">
-          <i class="bi bi-translate"></i> <span id="current-lang-label">EN</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4" aria-labelledby="langDropdown" style="z-index: 1060 !important;">
-          <li><a class="dropdown-item lang-select-btn fw-semibold text-primary small py-1.5" href="#" data-lang="en">English (EN)</a></li>
-          <li><a class="dropdown-item lang-select-btn small py-1.5" href="#" data-lang="hi">हिंदी (HI)</a></li>
-          <li><a class="dropdown-item lang-select-btn small py-1.5" href="#" data-lang="mr">मराठी (MR)</a></li>
-        </ul>
-      </div>
-
       <!-- Dark/Light Theme Toggle Button -->
       <button id="theme-toggle" class="btn btn-outline-secondary btn-sm rounded-circle p-1.5 d-flex align-items-center justify-content-center" type="button" aria-label="Toggle Light/Dark Theme" style="width: 32px; height: 32px;">
         <i class="bi bi-sun-fill d-none-theme-light text-warning small"></i>
